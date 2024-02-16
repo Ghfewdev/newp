@@ -6,7 +6,7 @@ import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai"
 export default function Navbar() {
     const [menuIcon, setIcon] = useState(false)
 
-    var profile
+    var profile = <></>
 
     const handleSCN = () => {
         setIcon(!menuIcon)
@@ -27,21 +27,21 @@ export default function Navbar() {
             document.getElementById("logout").hidden = false
             document.getElementById("login2").hidden = true
             document.getElementById("logout2").hidden = false
-            document.getElementById("profile").hidden = false
-            document.getElementById("profile2").hidden = false
-            setTimeout(() => {
-                profile = localStorage.getItem("department")
-                document.getElementById("profile").value = profile
-                document.getElementById("profile2").value = profile
-            }, 100);
+             document.getElementById("profile").hidden = false
+             document.getElementById("profile2").hidden = false
+             setTimeout(() => {
+                 profile = localStorage.getItem("department")
+                 document.getElementById("profile").value = profile
+                 document.getElementById("profile2").value = profile
+             }, 300);
         }
         else {
             document.getElementById("logout").hidden = true
             document.getElementById("login").hidden = false
             document.getElementById("login2").hidden = false
             document.getElementById("logout2").hidden = true
-            document.getElementById("profile").hidden = true
-            document.getElementById("profile2").hidden = true
+             document.getElementById("profile").hidden = true
+             document.getElementById("profile2").hidden = true
         }
     }, []);
     return (
@@ -77,9 +77,11 @@ export default function Navbar() {
 
                 <div className='hidden md:flex'>
                     <div className=' flex '>
-                        <div className=' mr-4'>
+                         <div className=' mr-4'>
                             <input type='text' value={profile} readOnly id='profile' className='text-center bg-[#5fb4ff] border-2 border-[#87827b] text-black rounded-full uppercase font-bold py-2' hidden/>
-                        </div> 
+                        </div>  
+
+                       
                         <Link href={"/login"}>
                             <button id='login' className=' mr-5 bg-[#06fc47] text-slate-800 hover:bg-slate-800 hover:text-[#dec] rounded-full uppercase font-bold px-8 py-2' hidden>เข้าสู่ระบบ</button>
                         </Link>
@@ -130,7 +132,8 @@ export default function Navbar() {
                         <div className='flex flex-col justify-center items-center mt-1'>
 
                         
-                                <input id='profile2' readOnly className=' bg-[#f8ef02dd] text-slate-800 rounded-full uppercase font-bold py-3 w-[250px] mb-5 text-center' hidden value={profile} />
+                                 <input id='profile2' readOnly className=' bg-[#f8ef02dd] text-slate-800 rounded-full uppercase font-bold py-3 w-[250px] mb-5 text-center' hidden value={profile} />
+                            
                             
 
                             <Link href={"/login"} onClick={handleSCN}>

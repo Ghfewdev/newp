@@ -1,9 +1,8 @@
 "use client"
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import Authen from '../components/Authen';
 
-export default function page() {
+export default function Manage() {
     Authen();
     const [form, setForm] = useState([]);
     const [select, setSelect] = useState([]);
@@ -103,7 +102,7 @@ export default function page() {
                 .then(result => {
                     setForm(result);
                 });
-        }
+        };
     }, []);
     return (
         <div>
