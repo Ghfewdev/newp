@@ -12,7 +12,7 @@ RUN npm install
 # make sure to set up .dockerignore to copy only necessary files
 COPY . .
 # run the build command which will build and export html files
-RUN npx prisma db seed && npm run build
+RUN npx db seed && npm run build
 
 # bundle static assets with nginx
 FROM nginx:1.21.0-alpine as production
@@ -20,7 +20,7 @@ ENV NODE_ENV production
 # remove existing files from nginx directory
 RUN rm -rf /usr/share/nginx/html/*
 # copy built assets from 'builder' stage
-COPY --from=builder /usr/src/next-nginx/out /usr/share/nginx/html
+COPY --from=builder /usr/src/next-nginx /usr/share/nginx/html
 # add nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # expose port 80 for nginx
