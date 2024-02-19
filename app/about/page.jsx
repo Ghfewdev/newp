@@ -1,8 +1,9 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import Authen from '../components/Authen';
 
 export default function About() {
-
+    Authen();
     const [hos, setHos] = useState([]);
     const [pre, setPre] = useState([]);
     const [dis, setDis] = useState([]);
