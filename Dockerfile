@@ -19,7 +19,7 @@ FROM nginx:1.21.0-alpine as production
 # remove existing files from nginx directory
 RUN rm -rf /usr/share/nginx/html/*
 # copy built assets from 'builder' stage
-COPY --from=builder /cars/dist /usr/share/nginx/html
+COPY --from=builder /cars/out /usr/share/nginx/html
 # add nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # expose port 80 for nginx

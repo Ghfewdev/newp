@@ -54,7 +54,7 @@ export default function Navbar() {
         }
     }, []);
     return (
-        <header className='bg-[#23973c] text-[#ff0b0b] w-full ease-in duration-300 fixed top-0 left-0 z-10'>
+        <header className='bg-[#23973c] text-[#ff0b0b] w-full ease-in duration-300 fixed top-0 left-0 z-10 print:hidden'>
             <nav className='p-4 items-center justify-between max-w-[1366px] mx-auto h-[100px] flex'>
                 <div>
                     <Link href={"/"} onClick={handleSCN}>

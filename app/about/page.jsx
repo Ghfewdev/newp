@@ -7,6 +7,8 @@ export default function About() {
     const [hos, setHos] = useState([]);
     const [pre, setPre] = useState([]);
     const [dis, setDis] = useState([]);
+    const [hosid, setHosid] = useState("");
+    const [hosname, setHosname] = useState("");
 
     var cond
     var start
@@ -33,20 +35,47 @@ export default function About() {
 
     }
 
+    const opti = () => {
+        setHosid(localStorage.getItem("id"))
+        setHosname(localStorage.getItem("department"))
+    }
+
     const createdata = () => {
-        cond = document.querySelector('input[name="condition"]:checked').value
+        //cond = document.querySelector('input[name="condition"]:checked').value
+        cond = ""
         start = ""
         end = ""
         if (document.getElementById("saddh").hidden === true)
-            start = document.getElementById("snum").value + " " + document.getElementById("sstreed").value + " " + document.getElementById("ssubdistrict").value + " " + document.getElementById("sselectdis").value + " กรุงเทพมหานคร " + document.getElementById("szip").value
+            start = document.getElementById("sname").value + " " + document.getElementById("snum").value + " " + document.getElementById("sstreed").value + " " + document.getElementById("ssubdistrict").value + " " + document.getElementById("sselectdis").value + " กรุงเทพมหานคร " + document.getElementById("szip").value
         else
             start = document.getElementById("sselecthos").value
         if (document.getElementById("eaddh").hidden === true)
-            end = document.getElementById("enum").value + " " + document.getElementById("estreed").value + " " + document.getElementById("esubdistrict").value + " " + document.getElementById("eselectdis").value + " กรุงเทพมหานคร  " + document.getElementById("ezip").value
+            end = document.getElementById("ename").value + " " + document.getElementById("enum").value + " " + document.getElementById("estreed").value + " " + document.getElementById("esubdistrict").value + " " + document.getElementById("eselectdis").value + " กรุงเทพมหานคร  " + document.getElementById("ezip").value
         else
             end = document.getElementById("eselecthos").value
-        if (cond === "1")
-            cond = document.getElementById("alther").value
+
+        for (var i = 1; i <= 14; i++) {
+            if (document.getElementById(`condition${i}`).checked === true) {
+                if (i === 6 && document.getElementById('condition6').checked === true)
+                cond += document.getElementById("alther").value
+                else
+                cond += document.getElementById(`condition${i}`).value
+                if (i != 14)
+                    cond += ", "
+            } else {
+                cond += "-"
+                if (i != 14)
+                    cond += ", "
+            }
+        }
+        // if (document.getElementById('condition6').checked === true) {
+        //     if (cond === "")
+        //         cond += document.getElementById("alther").value
+        //     else {
+        //         cond += ", "
+        //         cond += document.getElementById("alther").value
+        //     }
+        // }
 
         const jsondata = {
             "hos": document.getElementById("selecthos").value,
@@ -110,21 +139,29 @@ export default function About() {
                 console.log(result)
                 if (result.status === "ok") {
                     window.location = "/manage"
+                } else {
+                    alert("ตรวจสอบความถูกต้องข้อข้อมูลอีกครั้ง")
                 }
             })
 
     }
 
     const con = () => {
-        if (document.querySelector('input[name="condition"]:checked').value === "1") {
+        if (document.getElementById('condition6').checked === true) {
             document.getElementById("alther").disabled = false
-            document.querySelector('input[name="condition"]:checked').value = document.getElementById("alther").value
+            document.getElementById("alther").focus()
+            document.getElementById("alther").required = true
+            document.getElementById('condition6').value = document.getElementById("alther").value
         }
-        else {
+        else if (document.getElementById('condition6').checked === false) {
             document.getElementById("alther").value = ""
+            document.getElementById("alther").required = false
             document.getElementById("alther").disabled = true
         }
-
+        if (document.getElementById("condition7").checked === true)
+        document.getElementById("ihid").hidden = false
+        else if (document.getElementById("condition7").checked === false)
+        document.getElementById("ihid").hidden = true
     }
 
     const redio = (val, val2) => {
@@ -136,6 +173,7 @@ export default function About() {
         document.getElementById(val + "add").hidden = false
         document.getElementById(val + "addh").hidden = true
         if (val2) {
+            document.getElementById("sname").value = "บ้าน"
             document.getElementById(val + "num").value = num
             document.getElementById(val + "streed").value = streed
             document.getElementById(val + "subdistrict").value = subdistrict
@@ -148,6 +186,7 @@ export default function About() {
             document.getElementById(val + "zip").readOnly = true
         }
         else {
+            document.getElementById("sname").value = ""
             document.getElementById(val + "num").value = ""
             document.getElementById(val + "streed").value = ""
             document.getElementById(val + "subdistrict").value = ""
@@ -181,6 +220,7 @@ export default function About() {
 
     useEffect(() => {
         fetchdata();
+        opti();
     }, []);
 
     return (
@@ -189,31 +229,34 @@ export default function About() {
                 <p className="text-center mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">การลงทะเบียนการใช้บริการรถรับ-ส่งคนพิการและผู้สูงอายุ</p>
                 <form onSubmit={handleSubmit}>
                     <div></div>
-                    <div className='ml-6 mr-6 mt-10'><b>ข้อมูลผู้จองและโรงพยาบาลที่ต้องการ</b></div>
+                    {/* <div className='ml-6 mr-6 mt-10'><b>ข้อมูลผู้จองและโรงพยาบาลที่ต้องการ</b></div> */}
+                    <div className="grid gap-6 mb-6 md:grid-cols-2 pl-6 pr-6 mt-6">
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">โรงพยาบาลที่ให้บริการ</label>
+                            <select id='selecthos' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required>
+                                <option value={hosid}>{hosname}</option>
+                            </select>
+                            {/* <input type="text" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' readOnly value={String(localStorage.getItem("id"))} /> */}
+                        </div>
+                    </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">1. โรงพยาบาลที่ให้บริการ</label>
-                            <select id='selecthos' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required>
-                                {/* {defhos} */}
-                                {hos.map(h => (
-                                    <option key={h.hos_id} value={h.hos_id}>{h.hos_name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">2. วัน/เดือน/ปี ที่จอง</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วัน/เดือน/ปี ที่จอง</label>
                             <input type="datetime-local" id="date" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required />
                         </div>
+                    </div>
+                    <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
+                    <div className='ml-6 mr-6 mb-6'><b>ข้อมูลผู้รับบริการ</b></div>
+                    <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">3. เลขบัตรประชาชน</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เลขบัตรประชาชน</label>
                             <input type="number" id="sitizen" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={13} required />
                         </div>
-
                     </div>
 
                     <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6">
                         <div >
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">4. คำนำหน้า</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">คำนำหน้า</label>
                             <select id='selectpre' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required>
                                 <option>เลือกคำนำหน้า</option>
                                 {pre.map(p => (
@@ -221,36 +264,37 @@ export default function About() {
                                 ))}
                             </select></div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">5. ชื่อ</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ชื่อ</label>
                             <input type="text" id="fname" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" required />
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">6. นามสกุล</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">นามสกุล</label>
                             <input type="text" id="lname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">7. อายุ(ปี)</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">อายุ(ปี)</label>
                             <input type="number" id="age" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={3} placeholder="" required />
                         </div>
                     </div>
-                    <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
-                    <div className='ml-6 mr-6 mb-6'><b>ข้อมูลผู้จองและโรงพยาบาลที่ต้องการ</b></div>
-                    <div className="grid gap-6 mb-6 md:grid-cols-6 pl-6 pr-6">
+                    <div className="grid gap-6 mb-6 md:grid-cols-7 pl-6 pr-6">
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ที่อยู่ปัจจุบัน</label>
+                        </div>
 
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">8. เลขที่</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เลขที่</label>
                             <input type="text" id="num" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" required />
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">9. ถนน</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ถนน</label>
                             <input type="text" id="streed" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">10. แขวง</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">แขวง</label>
                             <input type="text" id="subdistrict" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                         </div>
                         <div >
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">11. เขต</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เขต</label>
                             <select id='selectdis' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required>
                                 <option>เลือกเขต</option>
                                 {dis.map(d => (
@@ -258,29 +302,37 @@ export default function About() {
                                 ))}
                             </select></div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">12. จังหวัด</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">จังหวัด</label>
                             <input type="text" id="province" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={"กรุงเทพมหานคร"} readOnly />
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">13. รหัสไปรษณีย์</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">รหัสไปรษณีย์</label>
                             <input type="number" id="zip" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={5} placeholder="" required />
+                        </div>
+                    </div>
+                    <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6">
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เบอร์โทรศัพท์</label>
+                            <input type="number" id="call" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' maxLength={10} required />
                         </div>
                     </div>
 
                     <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
-                    <div className='ml-6 mr-6 mb-6'><b>ข้อมูลการจองและรายละเอียดการรับ-ส่ง</b></div>
+                    <div className='ml-6 mr-6 mb-6'><b>ข้อมูลการจอองและรายละเอียดการรับ-ส่ง</b></div>
+
+                    <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วัน/เดือน/ปี ที่ขอใช้รถ</label>
+                            <input type="datetime-local" id="dateres" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required />
+                        </div>
+
+
+                    </div>
 
                     <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">14. เบอร์โทรศัพท์</label>
-                            <input type="number" id="call" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' maxLength={10} required />
-                        </div>
-                        <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">15. วัน/เดือน/ปี ที่ขอใช้รถ</label>
-                            <input type="datetime-local" id="dateres" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required />
-                        </div>
-                        <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">16. สถานที่รับ-ส่ง</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">สถานที่รับ-ส่ง</label>
                             <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
                                 <input type="radio" defaultChecked id="met1" name="met" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                 <label className='ml-2 mr-4'>: เที่ยวเดียว</label>
@@ -289,12 +341,11 @@ export default function About() {
                             </div>
 
                         </div>
-
                     </div>
 
-                    <div className="grid gap-6 mb-6 md:grid-cols-2 pl-6 pr-6 mt-6">
+                    <div className="grid gap-6 mb-6 md:grid-cols-1 pl-6 pr-6 mt-6">
                         <div >
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">17. สถานที่ต้นทาง</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">สถานที่ต้นทาง</label>
                             <div className=' items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
                                 <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
                                     <input type="radio" onClick={e => redio("s", 1)} id="start1" name="start" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -305,7 +356,11 @@ export default function About() {
                                     <label className='ml-2 mr-2'>: อื่น ๆ โปรดระบุ</label>
                                 </div>
                                 <div id='sadd' hidden>
-                                    <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
+                                    <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+                                        <div>
+                                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ชื่อสถานที่</label>
+                                            <input type="text" id="sname" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" />
+                                        </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เลขที่</label>
                                             <input type="text" id="snum" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" />
@@ -350,7 +405,7 @@ export default function About() {
                             </div>
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">18. สถานที่ปลายทาง</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">สถานที่ปลายทาง</label>
                             <div className=' items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
                                 <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
                                     <input type="radio" onClick={e => redio("e", 1)} id="end1" name="end" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -361,7 +416,11 @@ export default function About() {
                                     <label className='ml-2 mr-2'>: อื่น ๆ โปรดระบุ</label>
                                 </div>
                                 <div id='eadd'>
-                                    <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
+                                <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+                                        <div>
+                                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ชื่อสถานที่</label>
+                                            <input type="text" id="ename" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" />
+                                        </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เลขที่</label>
                                             <input type="text" id="enum" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" />
@@ -406,33 +465,64 @@ export default function About() {
                             </div>
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">19. เงื่อนไขในการขอรับบริการ</label>
-                            <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
-                                <div className="grid gap-6 mb-6 md:grid-cols-2 pl-6 pr-6 mt-6">
-                                    <div><input type="radio" defaultChecked onClick={e => con()} id="condition1" name="condition" value="ADL 5-12" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label className='ml-2 mr-4'>: ADL 5-12</label></div>
-                                    <div><input type="radio" onClick={e => con()} id="condition2" name="condition" value="มีปัญหาด้านการเคลื่อนไหว" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label className='ml-2 mr-2'>: มีปัญหาด้านการเคลื่อนไหว</label></div>
-                                    <div><input type="radio" onClick={e => con()} id="condition3" name="condition" value="มีนัดรักษาต่อเนื่องกับโรงพยาบาล" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label className='ml-2 mr-4'>: มีนัดรักษาต่อเนื่องกับโรงพยาบาล</label></div>
-                                    <div><input type="radio" onClick={e => con()} id="condition4" name="condition" value="มีปัญหาด้านเศรษฐานะ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label className='ml-2 mr-2'>: มีปัญหาด้านเศรษฐานะ</label></div>
-                                    <div><input type="radio" onClick={e => con()} id="condition5" name="condition" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label className='ml-2 mr-2'>: อื่น ๆ ระบุ </label></div>
-                                    <div><input type="text" id='alther' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled /></div>
-                                </div>
+                            <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
+                            <div className='ml-6 mr-6 mb-6'><b>เงื่อนไขในการขอรับบริการ</b></div>
 
-                                <div></div>
+                            <div className="grid gap-6 mb-3 md:grid-cols-2 pl-3 pr-3 mt-3">
+                                <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                                    <div className="grid gap-6 mb-6 md:grid-cols-2 pl-6 pr-6 mt-6">
+                                        <div><input type="checkbox" onClick={e => con()} id="condition1" name="condition" value="ผู้สูงอายุ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label className='ml-2 mr-4'>: ผู้สูงอายุ</label></div>
+                                        <div><input type="checkbox" onClick={e => con()} id="condition7" name="condition" value="คนพิการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label className='ml-2 mr-4'>: คนพิการ</label></div>
+                                        <div><input type="checkbox" onClick={e => con()} id="condition2" name="condition" value="ADL 5-12" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label className='ml-2 mr-4'>: ADL 5-12</label></div>
+                                        <div><input type="checkbox" onClick={e => con()} id="condition3" name="condition" value="มีปัญหาด้านการเคลื่อนไหว" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label className='ml-2 mr-2'>: มีปัญหาด้านการเคลื่อนไหว</label></div>
+                                        <div><input type="checkbox" onClick={e => con()} id="condition4" name="condition" value="มีนัดรักษาต่อเนื่องกับโรงพยาบาล" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label className='ml-2 mr-4'>: มีนัดรักษาต่อเนื่องกับโรงพยาบาล</label></div>
+                                        <div><input type="checkbox" onClick={e => con()} id="condition5" name="condition" value="มีปัญหาด้านเศรษฐานะ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label className='ml-2 mr-2'>: มีปัญหาด้านเศรษฐานะ</label></div>
+                                        <div><input type="checkbox" onClick={e => con()} id="condition6" name="condition" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <label className='ml-2 mr-2'>: อื่น ๆ ระบุ </label></div>
+                                        <div><input type="text" id='alther' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled /></div>
+                                    </div>
+
+                                </div>
+                                <div id='ihid' hidden>
+                                    <div><label className='ml-2 mr-4'>กรณีเป็นผู้พิการเลือกความพิการ</label> <br /><br /></div>
+                                    <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                                        <div className="grid gap-6 mb-3 md:grid-cols-2 pl-3 pr-3 mt-3">
+
+                                            <div><input type="checkbox" onClick={e => con()} id="condition8" name="condition" value="การเห็น" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-4'>: การเห็น</label></div>
+                                            <div><input type="checkbox" onClick={e => con()} id="condition9" name="condition" value="การได้ยินหรือสื่อความหมาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-4'>: การได้ยินหรือสื่อความหมาย</label></div>
+                                            <div><input type="checkbox" onClick={e => con()} id="condition10" name="condition" value="การเคลื่อนไหวหรือทางร่างกาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-2'>: การเคลื่อนไหวหรือทางร่างกาย</label></div>
+                                            <div><input type="checkbox" onClick={e => con()} id="condition11" name="condition" value="จิตใจหรือพฤติกรรม" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-4'>: จิตใจหรือพฤติกรรม</label></div>
+                                            <div><input type="checkbox" onClick={e => con()} id="condition12" name="condition" value="สติปัญญา" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-2'>: สติปัญญา</label></div>
+                                            <div><input type="checkbox" onClick={e => con()} id="condition13" name="condition" value="การเรียนรู้" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-2'>: การเรียนรู้</label></div>
+                                            <div><input type="checkbox" onClick={e => con()} id="condition14" name="condition" value="ออทิสติก" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-2'>: ออทิสติก</label></div></div>
+                                    </div></div>
+
+                                <div>
+
+                                </div>
                             </div>
 
                         </div>
                     </div>
 
                     <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
-                    <div className='ml-6 mr-6 mb-6'><b>ผู้ส่งข้อมูล</b></div>
+                    <div className='ml-6 mr-6 mb-6'><b>ข้อมูลผู้บันทึกข้อมูล</b></div>
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6">
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">20. ชื่อ - นามสกุล ผู้ส่งข้อมูล</label>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ชื่อ - นามสกุล ผู้ส่งข้อมูล</label>
                             <input type="text" id="editer" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" required />
 
                         </div>

@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "THSarabunIT";
+    src: url("Font/THSarabunIT๙.ttf") format("ttf");
+}
