@@ -13,6 +13,8 @@ export default function About() {
     var cond
     var start
     var end
+    const d = new Date()
+    var t = d.getFullYear() + "/" + Number(d.getMonth() + 1) + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 
     const fetchdata = () => {
         fetch(process.env.NEXT_PUBLIC_APP_API + "/hospital")
@@ -46,20 +48,20 @@ export default function About() {
         start = ""
         end = ""
         if (document.getElementById("saddh").hidden === true)
-            start = document.getElementById("sname").value + " " + document.getElementById("snum").value + " " + document.getElementById("sstreed").value + " " + document.getElementById("ssubdistrict").value + " " + document.getElementById("sselectdis").value + " กรุงเทพมหานคร " + document.getElementById("szip").value
+            start = String(document.getElementById("sname").value).replaceAll(" ", "") + " " + String(document.getElementById("snum").value).replaceAll(" ", "") + " " + String(document.getElementById("sstreed").value).replaceAll(" ", "") + " " + String(document.getElementById("ssubdistrict").value.replaceAll(" ", "")) + " " + document.getElementById("sselectdis").value + " กรุงเทพมหานคร " + document.getElementById("szip").value
         else
             start = document.getElementById("sselecthos").value
         if (document.getElementById("eaddh").hidden === true)
-            end = document.getElementById("ename").value + " " + document.getElementById("enum").value + " " + document.getElementById("estreed").value + " " + document.getElementById("esubdistrict").value + " " + document.getElementById("eselectdis").value + " กรุงเทพมหานคร  " + document.getElementById("ezip").value
+            end = String(document.getElementById("ename").value).replaceAll(" ", "") + " " + String(document.getElementById("enum").value).replaceAll(" ", "") + " " + String(document.getElementById("estreed").value).replaceAll(" ", "") + " " + String(document.getElementById("esubdistrict").value).replaceAll(" ", "") + " " + document.getElementById("eselectdis").value + " กรุงเทพมหานคร " + document.getElementById("ezip").value
         else
             end = document.getElementById("eselecthos").value
 
         for (var i = 1; i <= 14; i++) {
             if (document.getElementById(`condition${i}`).checked === true) {
                 if (i === 6 && document.getElementById('condition6').checked === true)
-                cond += document.getElementById("alther").value
+                    cond += document.getElementById("alther").value
                 else
-                cond += document.getElementById(`condition${i}`).value
+                    cond += document.getElementById(`condition${i}`).value
                 if (i != 14)
                     cond += ", "
             } else {
@@ -96,7 +98,8 @@ export default function About() {
             "start": start,
             "end": end,
             "condition": cond,
-            "editer": document.getElementById("editer").value
+            "editer": document.getElementById("editer").value,
+            "time": t
         }
 
         console.log(jsondata)
@@ -124,7 +127,8 @@ export default function About() {
             "start": start,
             "end": end,
             "condition": cond,
-            "editer": document.getElementById("editer").value
+            "editer": document.getElementById("editer").value,
+            "time": t
         }
 
         fetch(process.env.NEXT_PUBLIC_APP_API + "/fill", {
@@ -159,12 +163,12 @@ export default function About() {
             document.getElementById("alther").disabled = true
         }
         if (document.getElementById("condition7").checked === true)
-        document.getElementById("ihid").hidden = false
+            document.getElementById("ihid").hidden = false
         else if (document.getElementById("condition7").checked === false)
-        document.getElementById("ihid").hidden = true
+            document.getElementById("ihid").hidden = true
     }
 
-    const redio = (val, val2) => {
+    const redio = (val, val2, val3) => {
         const num = document.getElementById("num").value
         const streed = document.getElementById("streed").value
         const subdistrict = document.getElementById("subdistrict").value
@@ -172,8 +176,8 @@ export default function About() {
         const zip = document.getElementById("zip").value
         document.getElementById(val + "add").hidden = false
         document.getElementById(val + "addh").hidden = true
-        if (val2) {
-            document.getElementById("sname").value = "บ้าน"
+        if (val3) {
+            document.getElementById(val + "name").value = "บ้าน"
             document.getElementById(val + "num").value = num
             document.getElementById(val + "streed").value = streed
             document.getElementById(val + "subdistrict").value = subdistrict
@@ -184,9 +188,34 @@ export default function About() {
             document.getElementById(val + "subdistrict").readOnly = true
             document.getElementById(val + "selectdis").readOnly = true
             document.getElementById(val + "zip").readOnly = true
+
+            document.getElementById(val2 + "name").required = false
+            document.getElementById(val2 + "num").required = false
+            document.getElementById(val2 + "streed").required = false
+            document.getElementById(val2 + "subdistrict").required = false
+            document.getElementById(val2 + "selectdis").required = false
+            document.getElementById(val2 + "zip").required = false
+            document.getElementById(val2 + "num").required = false
+            document.getElementById(val2 + "streed").required = false
+            document.getElementById(val2 + "subdistrict").required = false
+            document.getElementById(val2 + "selectdis").required = false
+            document.getElementById(val2 + "zip").required = false
+
+            document.getElementById(val + "name").required = true
+            document.getElementById(val + "num").required = true
+            document.getElementById(val + "streed").required = true
+            document.getElementById(val + "subdistrict").required = true
+            document.getElementById(val + "selectdis").required = true
+            document.getElementById(val + "zip").required = true
+            document.getElementById(val + "num").required = true
+            document.getElementById(val + "streed").required = true
+            document.getElementById(val + "subdistrict").required = true
+            document.getElementById(val + "selectdis").required = true
+            document.getElementById(val + "zip").required = true
+
         }
         else {
-            document.getElementById("sname").value = ""
+            document.getElementById(val + "name").value = ""
             document.getElementById(val + "num").value = ""
             document.getElementById(val + "streed").value = ""
             document.getElementById(val + "subdistrict").value = ""
@@ -197,6 +226,31 @@ export default function About() {
             document.getElementById(val + "subdistrict").readOnly = false
             document.getElementById(val + "selectdis").readOnly = false
             document.getElementById(val + "zip").readOnly = false
+
+            document.getElementById(val2 + "name").required = false
+            document.getElementById(val2 + "num").required = false
+            document.getElementById(val2 + "streed").required = false
+            document.getElementById(val2 + "subdistrict").required = false
+            document.getElementById(val2 + "selectdis").required = false
+            document.getElementById(val2 + "zip").required = false
+            document.getElementById(val2 + "num").required = false
+            document.getElementById(val2 + "streed").required = false
+            document.getElementById(val2 + "subdistrict").required = false
+            document.getElementById(val2 + "selectdis").required = false
+            document.getElementById(val2 + "zip").required = false
+
+            document.getElementById(val + "name").required = true
+            document.getElementById(val + "num").required = true
+            document.getElementById(val + "streed").required = true
+            document.getElementById(val + "subdistrict").required = true
+            document.getElementById(val + "selectdis").required = true
+            document.getElementById(val + "zip").required = true
+            document.getElementById(val + "num").required = true
+            document.getElementById(val + "streed").required = true
+            document.getElementById(val + "subdistrict").required = true
+            document.getElementById(val + "selectdis").required = true
+            document.getElementById(val + "zip").required = true
+
         }
 
     }
@@ -204,6 +258,31 @@ export default function About() {
     const redioh = (val) => {
         document.getElementById(val).hidden = true
         document.getElementById(val + "h").hidden = false
+
+        document.getElementById("sname").required = false
+        document.getElementById("snum").required = false
+        document.getElementById("sstreed").required = false
+        document.getElementById("ssubdistrict").required = false
+        document.getElementById("sselectdis").required = false
+        document.getElementById("szip").required = false
+        document.getElementById("snum").required = false
+        document.getElementById("sstreed").required = false
+        document.getElementById("ssubdistrict").required = false
+        document.getElementById("sselectdis").required = false
+        document.getElementById("szip").required = false
+
+        document.getElementById("ename").required = false
+        document.getElementById("enum").required = false
+        document.getElementById("estreed").required = false
+        document.getElementById("esubdistrict").required = false
+        document.getElementById("eselectdis").required = false
+        document.getElementById("ezip").required = false
+        document.getElementById("enum").required = false
+        document.getElementById("estreed").required = false
+        document.getElementById("esubdistrict").required = false
+        document.getElementById("eselectdis").required = false
+        document.getElementById("ezip").required = false
+
     }
 
     const check = () => {
@@ -242,7 +321,7 @@ export default function About() {
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วัน/เดือน/ปี ที่จอง</label>
-                            <input type="datetime-local" id="date" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required />
+                            <input type="datetime-local" id="date" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="วว/ดด/ปปปป ชช:นน" required />
                         </div>
                     </div>
                     <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
@@ -296,7 +375,7 @@ export default function About() {
                         <div >
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เขต</label>
                             <select id='selectdis' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required>
-                                <option>เลือกเขต</option>
+                                {/* <option>เลือกเขต</option> */}
                                 {dis.map(d => (
                                     <option key={d.dis_id} value={d.dis_id}>{d.dis_name}</option>
                                 ))}
@@ -318,7 +397,7 @@ export default function About() {
                     </div>
 
                     <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
-                    <div className='ml-6 mr-6 mb-6'><b>ข้อมูลการจอองและรายละเอียดการรับ-ส่ง</b></div>
+                    <div className='ml-6 mr-6 mb-6'><b>ข้อมูลการจองและรายละเอียดการรับ-ส่ง</b></div>
 
                     <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
 
@@ -348,46 +427,46 @@ export default function About() {
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">สถานที่ต้นทาง</label>
                             <div className=' items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
                                 <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
-                                    <input type="radio" onClick={e => redio("s", 1)} id="start1" name="start" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                    <input type="radio" onClick={e => redio("s", "e", 1)} id="start1" name="start" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: ที่อยู่ปัจจุบัน</label>
                                     <input type="radio" defaultChecked onChange={e => redioh("sadd")} id="start2" name="start" value="2" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: โรงพยาบาล</label>
-                                    <input type="radio" onClick={e => redio("s")} id="start3" name="start" value="3" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                    <input type="radio" onClick={e => redio("s", "e")} id="start3" name="start" value="3" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-2'>: อื่น ๆ โปรดระบุ</label>
                                 </div>
                                 <div id='sadd' hidden>
                                     <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ชื่อสถานที่</label>
-                                            <input type="text" id="sname" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" />
+                                            <input type="text" id="sname" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" required />
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เลขที่</label>
-                                            <input type="text" id="snum" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" />
+                                            <input type="text" id="snum" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" required />
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ถนน</label>
-                                            <input type="text" id="sstreed" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
+                                            <input type="text" id="sstreed" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">แขวง</label>
-                                            <input type="text" id="ssubdistrict" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
+                                            <input type="text" id="ssubdistrict" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                                         </div>
                                         <div >
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เขต</label>
                                             <select id='sselectdis' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' >
-                                                <option>เลือกเขต</option>
+                                                {/* <option>เลือกเขต</option> */}
                                                 {dis.map(d => (
-                                                    <option key={d.dis_id} value={d.dis_id}>{d.dis_name}</option>
+                                                    <option key={d.dis_id} value={d.dis_name}>{d.dis_name}</option>
                                                 ))}
                                             </select></div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">จังหวัด</label>
-                                            <input type="text" id="sprovince" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={"กรุงเทพมหานคร"} readOnly />
+                                            <input type="text" id="sprovince" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={"กรุงเทพมหานคร"} readOnly required />
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">รหัสไปรษณีย์</label>
-                                            <input type="number" id="szip" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={5} placeholder="" />
+                                            <input type="number" id="szip" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={5} placeholder="" required />
                                         </div>
                                     </div>
                                 </div>
@@ -408,37 +487,37 @@ export default function About() {
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">สถานที่ปลายทาง</label>
                             <div className=' items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
                                 <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
-                                    <input type="radio" onClick={e => redio("e", 1)} id="end1" name="end" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                    <input type="radio" onClick={e => redio("e", "s", 1)} id="end1" name="end" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: ที่อยู่ปัจจุบัน</label>
                                     <input type="radio" onClick={e => redioh("eadd")} id="end2" name="end" value="2" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: โรงพยาบาล</label>
-                                    <input type="radio" defaultChecked onClick={e => redio("e")} id="end3" name="end" value="3" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                    <input type="radio" defaultChecked onClick={e => redio("e", "s")} id="end3" name="end" value="3" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-2'>: อื่น ๆ โปรดระบุ</label>
                                 </div>
                                 <div id='eadd'>
-                                <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+                                    <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ชื่อสถานที่</label>
-                                            <input type="text" id="ename" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" />
+                                            <input type="text" id="ename" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" required />
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เลขที่</label>
-                                            <input type="text" id="enum" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" />
+                                            <input type="text" id="enum" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" required />
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ถนน</label>
-                                            <input type="text" id="estreed" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
+                                            <input type="text" id="estreed" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">แขวง</label>
-                                            <input type="text" id="esubdistrict" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
+                                            <input type="text" id="esubdistrict" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
                                         </div>
                                         <div >
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เขต</label>
                                             <select id='eselectdis' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' >
-                                                <option>เลือกเขต</option>
+                                                {/* <option>เลือกเขต</option> */}
                                                 {dis.map(d => (
-                                                    <option key={d.dis_id} value={d.dis_id}>{d.dis_name}</option>
+                                                    <option key={d.dis_id} value={d.dis_name}>{d.dis_name}</option>
                                                 ))}
                                             </select></div>
                                         <div>
@@ -447,7 +526,7 @@ export default function About() {
                                         </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">รหัสไปรษณีย์</label>
-                                            <input type="number" id="ezip" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={5} placeholder="" />
+                                            <input type="number" id="ezip" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={5} placeholder="" required />
                                         </div>
                                     </div>
                                 </div>
@@ -536,7 +615,7 @@ export default function About() {
                         <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">กรอกข้อมูลครบถ้วนและต้องการส่งข้อมูล <a href="#" className="text-blue-600 hover:underline dark:text-blue-500"></a></label>
                     </div>
                     <div className="flex items-start mb-6 pl-6 pr-6">
-                        <button id='submit' className='px-8 py-3 text-white bg-blue-600 rounded-lg focus:outline-none disabled:opacity-25' disabled>ส่งข้ออมูลการจองรถ</button>
+                        <button id='submit' className='px-8 py-3 text-white bg-blue-600 rounded-lg focus:outline-none disabled:opacity-25' disabled>ส่งข้อมูลการจองรถ</button>
                     </div>
                 </form>
             </div>

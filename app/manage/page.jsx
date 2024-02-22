@@ -72,6 +72,7 @@ export default function Manage() {
             "fm_id": fm,
             "cm_status": 1,
             "cm_date": t,
+            "des": ""
         }
 
         fetch(process.env.NEXT_PUBLIC_APP_API + "/status", {
@@ -244,6 +245,8 @@ export default function Manage() {
                                             var time = (String(f.date).split("T")[1]).split(".")[0]
                                             var dateres = String(f.dateres).split("T")[0]
                                             var timeres = (String(f.dateres).split("T")[1]).split(".")[0]
+                                            var co = (String(f.condition).replaceAll("-", " "))
+                                            var co1 = String(co.split(", ")).replaceAll(", ", "")
 
                                             if (f.status === null) {
                                                 setTimeout(() => {
@@ -263,8 +266,8 @@ export default function Manage() {
                                                     วัน/เดือน/ปี ที่จอง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={"วันที่ " + date + " เวลา " + time} />
                                                     เลขบัตรประชาชน: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.citizen} />
                                                     คำนำหน้า: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.pre_name} />
-                                                    ชื่อ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.lname} />
-                                                    นามสกุล: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.fname} />
+                                                    ชื่อ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.fname} />
+                                                    นามสกุล: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.lname} />
                                                     อายุ(ปี): <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.age} />
                                                     เลขที่: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.house} />
                                                     ถนน: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.street} />
@@ -275,9 +278,9 @@ export default function Manage() {
                                                     เบอร์โทรศัพท์: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.call} />
                                                     วัน/เดือน/ปี ที่ขอใช้รถ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={"วันที่ " + dateres + " เวลา " + timeres} />
                                                     สถานที่รับ-ส่ง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.met_name} />
-                                                    สถานที่ต้นทาง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.start} />
-                                                    สถานที่ปลายทาง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.end} />
-                                                    เงื่อนไขในการขอรับบริการ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.condition} />
+                                                    สถานที่ต้นทาง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={String(f.start).replaceAll("~", "")} />
+                                                    สถานที่ปลายทาง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={String(f.end).replaceAll("~", "")} />
+                                                    เงื่อนไขในการขอรับบริการ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={co1} />
                                                     ชื่อ - นามสกุล ผู้ส่งข้อมูล: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.editer} />
                                                 </div>
                                             )
@@ -302,9 +305,10 @@ export default function Manage() {
                                             ดำเนินการสำเร็จ
                                         </button>
                                         <button
-                                            className=" bg-blue-600 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            className=" bg-blue-600 text-white active:bg-blue-600 disabled:bg-blue-300 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                             type="button"
                                             onClick={() => { window.print() }}
+                                            disabled
                                         >
                                             พิมพ์
                                         </button>
@@ -385,6 +389,7 @@ export default function Manage() {
                             var time = (String(f.date).split("T")[1]).split(".")[0]
                             var dateres = String(f.dateres).split("T")[0]
                             var timeres = (String(f.dateres).split("T")[1]).split(".")[0]
+                            
                             return (
 
                                 <div key={f.fm_id}>
@@ -410,6 +415,7 @@ export default function Manage() {
                                     ชื่อ - นามสกุล ผู้ส่งข้อมูล: <label className='pl-2 pr-2 underline underline-offset-4'>{f.editer}</label>
                                     สถานะ: <label className='pl-2 pr-2 underline underline-offset-4'>{f.status}</label>
                                 </div>
+
                             )
                         })}
 
