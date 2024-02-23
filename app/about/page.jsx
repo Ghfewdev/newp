@@ -455,11 +455,13 @@ export default function About() {
                                         <div >
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เขต</label>
                                             <select id='sselectdis' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' >
-                                                {/* <option>เลือกเขต</option> */}
+                                                
                                                 {dis.map(d => (
                                                     <option key={d.dis_id} value={d.dis_id}>{d.dis_name}</option>
                                                 ))}
-                                            </select></div>
+                                            </select>
+                                            
+                                            </div>
                                         <div>
                                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">จังหวัด</label>
                                             <input type="text" id="sprovince" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue={"กรุงเทพมหานคร"} readOnly required />

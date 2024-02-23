@@ -9,7 +9,8 @@ export default function Manage() {
     const [showModal, setShowModal] = React.useState(false);
     const [showModal2, setShowModal2] = React.useState(false);
     const [printm, setPrintm] = React.useState(false);
-    const [formi, setFormi] = useState()
+    const [formi, setFormi] = useState();
+    const [admin, setAdmin] = React.useState(false);
     const d = new Date()
     var t = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 
@@ -27,8 +28,10 @@ export default function Manage() {
 
     const clanc = (fm) => {
 
-        if (document.getElementById("des").value === "") {
-            alert("กรอกข้อมูลให้ครบ!!")
+        var cance = document.querySelector('input[name="cance"]:checked').value
+
+        if (document.getElementById("cance4").checked === true) {
+            cance = document.getElementById("des").value
         }
         else {
             const jsondata = {
@@ -36,7 +39,7 @@ export default function Manage() {
                 "fm_id": fm,
                 "cm_status": 0,
                 "cm_date": t,
-                "des": document.getElementById("des").value
+                "des": cance
             }
 
             fetch(process.env.NEXT_PUBLIC_APP_API + "/status", {
@@ -59,9 +62,11 @@ export default function Manage() {
 
     const checkc = (des) => {
         setTimeout(() => {
+            document.getElementById("viwec").hidden = true
             document.getElementById("subc").hidden = true
             document.getElementById("des").value = des
             document.getElementById("des").readOnly = true
+            
         }, 10);
     }
 
@@ -91,14 +96,44 @@ export default function Manage() {
             })
     }
 
-    useEffect(() => {
-        if (localStorage.getItem("id") === "14") {
+    const qry = (val) => {
+        if (val === 14) {
             fetch(process.env.NEXT_PUBLIC_APP_API + "/form")
                 .then(res => res.json())
                 .then(result => {
                     setForm(result);
                 });
         } else {
+            fetch(process.env.NEXT_PUBLIC_APP_API + "/form/users/" + val)
+                .then(res => res.json())
+                .then(result => {
+                    setForm(result);
+                });
+        }
+    }
+
+    const cancalf = (val) => {
+        if (val) {
+            document.getElementById("des").disabled = false
+            document.getElementById("des").required = true
+            document.getElementById("des").focus()
+
+        } else {
+            document.getElementById("des").required = false
+            document.getElementById("des").disabled = true
+        }
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem("id") === "14") {
+            setAdmin(true);
+            fetch(process.env.NEXT_PUBLIC_APP_API + "/form")
+                .then(res => res.json())
+                .then(result => {
+                    setForm(result);
+                });
+        } else {
+            setAdmin(false);
             fetch(process.env.NEXT_PUBLIC_APP_API + "/form/users/" + localStorage.getItem("id"))
                 .then(res => res.json())
                 .then(result => {
@@ -114,6 +149,24 @@ export default function Manage() {
                         <br />
                         <button onClick={e => excal()} className='bg-green-700 text-white p-2 rounded-lg mr-5'>Download ไฟล์ EXCAL</button>
                         {/* <button className='bg-red-700 text-white p-2 rounded-lg'>Dowload ไฟล์ PDF</button> */}
+                        {admin ? (
+                            <>
+                                <br /><br />
+                                <button onClick={e => qry(14)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>สพบ</button>
+                                <button onClick={e => qry(1)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพก</button>
+                                <button onClick={e => qry(2)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพต</button>
+                                <button onClick={e => qry(3)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพจ</button>
+                                <button onClick={e => qry(4)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพท</button>
+                                <button onClick={e => qry(5)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพว</button>
+                                <button onClick={e => qry(6)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพภ</button>
+                                <button onClick={e => qry(7)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพร</button>
+                                <button onClick={e => qry(8)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพส</button>
+                                <button onClick={e => qry(9)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพข</button>
+                                <button onClick={e => qry(10)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพค</button>
+                                <button onClick={e => qry(11)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพบ</button>
+                            </>
+                        ) : null}
+
                         <br />
                     </div>
 
@@ -179,7 +232,7 @@ export default function Manage() {
                                     return (
 
                                         <tr key={f.fm_id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                            <th scope="row" className="px-6 py-4 text-red-600 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <th scope="row" className="px-6 py-4 text-red-600 font-medium whitespace-nowrap dark:text-white">
                                                 {f.dateres}
                                             </th>
                                             <td className="px-6 py-4">
@@ -346,10 +399,24 @@ export default function Manage() {
                                     {/*body*/}
                                     <div className="relative p-6 flex-auto">
 
-                                        <div>
-                                            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white text-center">ยกเลิกนัดหมายเนื่องจาก</label>
-                                            <input type="text" id="des" className='bg-gray-50 border border-gray-300 text-gray-900 text-center text-l rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="" required />
+                                        <div className='text-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                                            <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white text-center">ยกเลิกนัดหมายเนื่องจาก </label>
+                                            <br />
+                                            <div id="viwec">
+                                                <input type="radio" defaultChecked id="cance1" onClick={e => cancalf()} name="cance" value="ผู้ป่วยยกเลิกนัด" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-4'>: ผู้ป่วยยกเลิกนัด</label>
+                                                <input type="radio" id="cance2" name="cance" onClick={e => cancalf()} value="ยกเลิกนัด รถไม่พร้อม" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-2'>: ยกเลิกนัด รถไม่พร้อม</label><br />
+                                                <input type="radio" id="cance3" name="cance" onClick={e => cancalf()} value="ยกเลิกนัด รถไม่เพียงพอ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-2'>: ยกเลิกนัด รถไม่เพียงพอ</label>
+                                                <input type="radio" id="cance4" name="cance" value="4" onClick={e => cancalf(1)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label className='ml-2 mr-2'>: อื่นๆ ระบุ</label>
+                                            </div>
+                                            <input type="text" id="des" className="border pl-2 pr-2 rounded" placeholder="" disabled />
                                         </div>
+
+
+
 
                                     </div>
                                     {/*footer*/}
@@ -389,7 +456,7 @@ export default function Manage() {
                             var time = (String(f.date).split("T")[1]).split(".")[0]
                             var dateres = String(f.dateres).split("T")[0]
                             var timeres = (String(f.dateres).split("T")[1]).split(".")[0]
-                            
+
                             return (
 
                                 <div key={f.fm_id}>
