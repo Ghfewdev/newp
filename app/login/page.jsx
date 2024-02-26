@@ -9,7 +9,7 @@ export default function Login() {
             "name": event.target.username.value,
             "password": event.target.password.value,
         }
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/login", {
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/login2", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

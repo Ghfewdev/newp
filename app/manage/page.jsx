@@ -15,7 +15,7 @@ export default function Manage() {
     var t = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 
     const fet = (val) => {
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/form/" + val)
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/form2/" + val)
             .then(res => res.json())
             .then(result => {
                 setSelect(result);
@@ -23,7 +23,7 @@ export default function Manage() {
     }
 
     const excal = () => {
-        window.open(process.env.NEXT_PUBLIC_APP_API + "/excal/" + localStorage.getItem("id"))
+        window.open(process.env.NEXT_PUBLIC_APP_API + "/excal2/" + localStorage.getItem("id"))
     }
 
     const clanc = (fm) => {
@@ -42,7 +42,7 @@ export default function Manage() {
                 "des": cance
             }
 
-            fetch(process.env.NEXT_PUBLIC_APP_API + "/status", {
+            fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export default function Manage() {
             "des": ""
         }
 
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/status", {
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -98,13 +98,13 @@ export default function Manage() {
 
     const qry = (val) => {
         if (val === 14) {
-            fetch(process.env.NEXT_PUBLIC_APP_API + "/form")
+            fetch(process.env.NEXT_PUBLIC_APP_API + "/form2")
                 .then(res => res.json())
                 .then(result => {
                     setForm(result);
                 });
         } else {
-            fetch(process.env.NEXT_PUBLIC_APP_API + "/form/users/" + val)
+            fetch(process.env.NEXT_PUBLIC_APP_API + "/form2/users/" + val)
                 .then(res => res.json())
                 .then(result => {
                     setForm(result);
@@ -127,14 +127,14 @@ export default function Manage() {
     useEffect(() => {
         if (localStorage.getItem("id") === "14") {
             setAdmin(true);
-            fetch(process.env.NEXT_PUBLIC_APP_API + "/form")
+            fetch(process.env.NEXT_PUBLIC_APP_API + "/form2")
                 .then(res => res.json())
                 .then(result => {
                     setForm(result);
                 });
         } else {
             setAdmin(false);
-            fetch(process.env.NEXT_PUBLIC_APP_API + "/form/users/" + localStorage.getItem("id"))
+            fetch(process.env.NEXT_PUBLIC_APP_API + "/form2/users/" + localStorage.getItem("id"))
                 .then(res => res.json())
                 .then(result => {
                     setForm(result);

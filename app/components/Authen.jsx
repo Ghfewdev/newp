@@ -5,7 +5,7 @@ const Authen = () => {
     useEffect(() => {
         try{
             const token = localStorage.getItem("token").split("$")[0]
-            fetch(process.env.NEXT_PUBLIC_APP_API+"/authen", {
+            fetch(process.env.NEXT_PUBLIC_APP_API+"/authen2", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

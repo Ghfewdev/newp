@@ -17,19 +17,19 @@ export default function About() {
     var t = d.getFullYear() + "/" + Number(d.getMonth() + 1) + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 
     const fetchdata = () => {
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/hospital")
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/hospital2")
             .then(res => res.json())
             .then(result => {
                 setHos(result);
             });
 
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/preflix")
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/preflix2")
             .then(res => res.json())
             .then(result => {
                 setPre(result);
             });
 
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/district")
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/district2")
             .then(res => res.json())
             .then(result => {
                 setDis(result);
@@ -131,7 +131,7 @@ export default function About() {
             "time": t
         }
 
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/fill", {
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/fill2", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
