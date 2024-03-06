@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "THSarabunIT";
-    src: url("Font/THSarabunIT๙.ttf") format("ttf");
+    font-family: "THSarabunIT๙";
+    src: url("Font/THSarabunIT๙.ttf") format("truetype");
 }
