@@ -5,6 +5,12 @@ export default function Page() {
 
   return (
     <div>
+      <br />
+      <div className=" flex justify-center items-center">
+      <img src="https://webportal.bangkok.go.th/user_files/400/173440610161a59a7d1ad282.52670477.png" alt="bma" className="w-[80%]" />
+      </div>
+      <br />
+      <br />
       <p className="font-bold text-center uppercase text-3xl">ระบบรถรับส่งผู้พิการ</p>
       <br />
       <br />
@@ -18,7 +24,7 @@ export default function Page() {
       <br />
       <p className="text-center text-xl">e-mail : sdmsd.bangkok@gmail.com</p>
 
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br /><br />
     </div>
   )
 }

@@ -537,7 +537,7 @@ export default function About() {
                     <div className='ml-6 mr-6 mb-6'><b><u>ประเภทผู้รับบริการ</u></b></div>
 
                     <div className="grid gap-6 mb-3 md:grid-cols-2 pl-3 pr-3 mt-3">
-                        <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                        <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                             <div className="grid gap-6 mb-6 md:grid-cols-1 pl-6 pr-6 mt-6">
                                 <div><input type="checkbox" disabled onClick={e => con()} id="condition1" name="condition2" value="ผู้สูงอายุ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: ผู้สูงอายุ</label></div>
@@ -546,7 +546,7 @@ export default function About() {
 
                                 <div id='ihid' hidden>
                                     <div><label className='ml-2 mr-4'>**กรณีเป็นผู้พิการเลือกความพิการ**</label> <br /><br /></div>
-                                    <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                                    <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                                         <div className="grid gap-6 mb-3 md:grid-cols-2 pl-3 pr-3 mt-3">
 
                                             <div><input type="checkbox" onClick={e => con()} id="condition8" name="condition" value="การเห็น" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -578,7 +578,7 @@ export default function About() {
                     <div className='ml-6 mr-6 mb-6'><b><u>เงื่อนไขในการขอรับบริการ</u></b></div>
 
                     <div className="grid gap-6 mb-3 md:grid-cols-2 pl-3 pr-3 mt-3">
-                        <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                        <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                             <div className="grid gap-6 mb-6 md:grid-cols-2 pl-6 pr-6 mt-6">
                                 <div><input type="checkbox" onClick={e => con("condition2")} id="condition2" name="condition" value="ADL 5-12" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: ADL 5-12</label></div>
@@ -608,7 +608,7 @@ export default function About() {
                         <div className='ml-6 mr-6 mb-6'><b><u>ผลการประเมินเบื้องต้น</u></b></div>
 
                         <div className="grid gap-6 mb-3 md:grid-cols-2 pl-3 pr-3 mt-3">
-                            <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                            <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                                 <div className="grid gap-6 mb-6 md:grid-cols-1 pl-6 pr-6 mt-6">
                                     <div>
                                         <input type="radio" defaultChecked id="mett1" name="mett" onChange={() => { showadd() }} value="แนะนำทำ Telemedicine" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -699,7 +699,7 @@ export default function About() {
                         <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">สถานที่รับ-ส่ง</label>
-                                <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                                <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                                     <input type="radio" defaultChecked id="met1" name="met" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: เที่ยวเดียว</label>
                                     <input type="radio" id="met2" name="met" value="2" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -713,7 +713,7 @@ export default function About() {
                             <div >
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">สถานที่ต้นทาง</label>
                                 <div className=' items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
-                                    <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                                    <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                                         <input type="radio" onClick={e => redio("s", "e", 1)} id="start1" name="start" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                         <label className='ml-2 mr-4'>: ที่อยู่ปัจจุบัน</label>
                                         <input type="radio" defaultChecked onChange={e => redioh("sadd")} id="start2" name="start" value="2" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -775,7 +775,7 @@ export default function About() {
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">สถานที่ปลายทาง</label>
                                 <div className=' items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
-                                    <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
+                                    <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                                         <input type="radio" onClick={e => redio("e", "s", 1)} id="end1" name="end" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                         <label className='ml-2 mr-4'>: ที่อยู่ปัจจุบัน</label>
                                         <input type="radio" onClick={e => redioh("eadd")} id="end2" name="end" value="2" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />

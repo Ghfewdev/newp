@@ -8,6 +8,7 @@ export default function Navbar() {
 
     const profile = () => {
         var p = localStorage.getItem("department")
+        document.getElementById("pf").hidden = false
         return p
     }
 
@@ -21,6 +22,7 @@ export default function Navbar() {
         localStorage.removeItem("department");
         localStorage.removeItem("token");
         window.location = "/";
+        document.getElementById("pf").hidden = true
     }
 
     useEffect(() => {
@@ -54,48 +56,42 @@ export default function Navbar() {
         }
     }, []);
     return (
-        <header className='bg-[#23973c] text-[#ff0b0b] w-full ease-in duration-300 fixed top-0 left-0 z-10 print:hidden'>
+        <header className='bg-[#006A33] text-red-400 w-full ease-in duration-300 fixed top-0 left-0 z-10 print:hidden'>
             <nav className='p-4 items-center justify-between max-w-[1366px] mx-auto h-[100px] flex'>
                 <div>
                     <Link href={"/"} onClick={handleSCN}>
-                        <span className=' font-extrabold text-3xl md:text-2xl xl:text-3xl uppercase'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-16">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
-                            </svg>
-
-                        </span>
+                        <img src="https://webportal.bangkok.go.th/user_files/400/155738054265dd9f70558861.05376981.png" alt="home" className="w-16" />
                     </Link>
                 </div>
 
                 <ul className='hidden md:flex uppercase font-semibold text-1xl lg:text-[20px] text-slate-800'>
 
-                    <li className=' mr-4 lg:mr-8 hover:text-[#ceff00]'>
+                    <li className='text-[#FFEA00] mr-4 lg:mr-8 hover:text-[#7BC634]'>
                         <Link href={"/"}>หน้าแรก</Link>
                     </li>
-                    <li id='regis' hidden className=' mr-4 lg:mr-8 hover:text-[#ceff00]'>
+                    <li id='regis' hidden className='text-[#FFEA00] mr-4 lg:mr-8 hover:text-[#7BC634]'>
                         <Link href={"/about"}>ลงทะเบียนขอใช้รถ</Link>
                     </li>
-                    <li id='manage' hidden className=' mr-4 lg:mr-8 hover:text-[#ceff00]'>
+                    <li id='manage' hidden className=' text-[#FFEA00] mr-4 lg:mr-8 hover:text-[#7BC634]'>
                         <Link href={"/manage"}>จัดการข้อมูลขอใช้รถ</Link>
                     </li>
-                    <li className='  hover:text-[#ceff00]'>
+                    {/* <li className='text-[#FFEA00] hover:text-[#7BC634]'>
                         <Link href={"/contact"}></Link>
-                    </li>
+                    </li> */}
 
                 </ul>
 
                 <div className='hidden md:flex'>
                     <div className=' flex '>
+                        <div id="pf" hidden><img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="pf" className="w-10 mr-3" /></div>
                         <div className=' mr-4'>
-                            <input type='text' readOnly id='profile' className='text-center bg-[#5fb4ff] border-2 border-[#87827b] text-black rounded-full uppercase font-bold py-2' hidden />
+                            <input type='text' readOnly id='profile' className='text-center bg-[#F0FDF0] border-2 border-[#87827b] text-black rounded-md  uppercase font-bold py-2' hidden />
                         </div>
-
-
                         <Link href={"/login"}>
-                            <button id='login' className=' mr-5 bg-[#06fc47] text-slate-800 hover:bg-slate-800 hover:text-[#dec] rounded-full uppercase font-bold px-8 py-2' hidden>เข้าสู่ระบบ</button>
+                            <button id='login' className=' mr-5 bg-[#06fc47] text-slate-800 hover:bg-slate-800 hover:text-[#dec] rounded-lg uppercase font-bold px-8 py-2' hidden>เข้าสู่ระบบ</button>
                         </Link>
                         <Link href={"/"}>
-                            <button id='logout' onClick={e => handleLogout()} className='bg-[#ff3131] border-2 border-[#87827b] text-black rounded-full uppercase font-bold px-8 py-2' hidden>ออกจากระบบ</button>
+                            <button id='logout' onClick={e => handleLogout()} className='bg-[#d43d3d] border-2 border-[#87827b] text-black rounded-lg uppercase font-bold px-8 py-2 hover:bg-blue-400 hover:text-white' hidden>ออกจากระบบ</button>
                         </Link>
                     </div>
                 </div>
@@ -130,9 +126,9 @@ export default function Navbar() {
                                 <Link href={"/manage"}>จัดการข้อมูลขอใช้รถ</Link>
                             </li>
 
-                            <li onClick={handleSCN} className=' py-5 hover:text-[#cefd] cursor-pointer'>
+                            {/* <li onClick={handleSCN} className=' py-5 hover:text-[#cefd] cursor-pointer'>
                                 <Link href={"/contact"}></Link>
-                            </li>
+                            </li> */}
 
 
 
