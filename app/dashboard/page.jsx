@@ -1,11 +1,11 @@
 import React from 'react'
 
 export const metadata = {
-    title: "Contact",
-    description: "Contact Now"
+    title: "Dashboard",
+    description: "Dashboard Now"
 }
 
-export default function Contact() {
+export default function Dashboard() {
     return (
         <>
             <div>

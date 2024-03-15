@@ -17,6 +17,8 @@ export default function Agecal(props) {
             }
             if (isNaN(age)) {
                 setAge("0")
+            } else if (age <= -1) {
+                setAge(age+543)
             } else
             setAge(age);
             

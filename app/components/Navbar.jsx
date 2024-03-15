@@ -37,10 +37,10 @@ export default function Navbar() {
             document.getElementById("manage2").hidden = false
             document.getElementById("regis").hidden = false
             document.getElementById("regis2").hidden = false
-             setTimeout(() => {
-                 document.getElementById("profile").value = profile()
-                 document.getElementById("profile2").value = profile()
-             }, 300);
+            setTimeout(() => {
+                document.getElementById("profile").value = profile()
+                document.getElementById("profile2").value = profile()
+            }, 300);
         }
         else {
             document.getElementById("logout").hidden = true
@@ -91,7 +91,11 @@ export default function Navbar() {
                             <button id='login' className=' mr-5 bg-[#06fc47] text-slate-800 hover:bg-slate-800 hover:text-[#dec] rounded-lg uppercase font-bold px-8 py-2' hidden>เข้าสู่ระบบ</button>
                         </Link>
                         <Link href={"/"}>
-                            <button id='logout' onClick={e => handleLogout()} className='bg-[#d43d3d] border-2 border-[#87827b] text-black rounded-lg uppercase font-bold px-8 py-2 hover:bg-blue-400 hover:text-white' hidden>ออกจากระบบ</button>
+                            <button id='logout' onClick={e => handleLogout()} className='bg-[#d43d3d] border-2 border-[#87827b] text-black rounded-lg uppercase font-bold px-8 py-2 hover:bg-blue-400 hover:text-white' hidden>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                </svg>
+                            </button>
                         </Link>
                     </div>
                 </div>

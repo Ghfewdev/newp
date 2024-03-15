@@ -290,7 +290,7 @@ export default function About() {
         else if (document.getElementById("condition7").checked === false)
             document.getElementById("ihid").hidden = true
         if (val) {
-            if (document.getElementById(val).checked === false) {
+            if (document.getElementById("condition2").checked === false && document.getElementById("condition3").checked === false && document.getElementById("condition4").checked === false && document.getElementById("condition5").checked === false && document.getElementById("condition6").checked === false && document.getElementById("condition7").checked === false) {
                 document.getElementById("rech").hidden = true
             }
             else {
@@ -318,6 +318,7 @@ export default function About() {
             document.getElementById("condition4").disabled = true
             document.getElementById("condition5").disabled = true
             document.getElementById("condition6").disabled = true
+            document.getElementById("alther").disabled = true
             document.getElementById("rech").hidden = true
             
         }

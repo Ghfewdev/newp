@@ -1,9 +1,14 @@
 "use client"
+import DataTable from 'react-data-table-component';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Authen from '../components/Authen';
 
+
+
 export default function Manage() {
     Authen();
+    const [furl, setFurl] = useState("");
     const [form, setForm] = useState([]);
     const [select, setSelect] = useState([]);
     const [showModal, setShowModal] = React.useState(false);
@@ -13,8 +18,288 @@ export default function Manage() {
     const [formi, setFormi] = useState();
     const [cri, setCri] = useState();
     const [admin, setAdmin] = React.useState(false);
+    const [hos, setHos] = useState([]);
+    // const [query, setQuery] = useState("")
+    const [page, setPage] = useState(1)
+    // const [per_page, setPer_Page] = useState(25)
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [totalRows, setTotalRows] = useState(0);
+    const [perPage, setPerPage] = useState(10);
+    const [sortColumn, setSortColumn] = useState("");
+    const [sortDirection, setSortDirection] = useState("");
+    //query
+    const [search, setSearch] = useState("");
+    const [hosp, setHosp] = useState("");
+    const [statusc, setStatusc] = useState("");
+    const [start, setStart] = useState("");
+    const [end, setEnd] = useState("");
+
     const d = new Date()
     var t = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
+
+
+    const columns = [
+        {
+            name: 'วันที่ต้องการใช้',
+            selector: row => row.dateres,
+            sortable: true,
+            grow: "2",
+            style: {
+                color: 'red',
+            },
+            "col": "dateres",
+        },
+        {
+            name: 'วันที่จอง',
+            selector: row => row.date,
+            sortable: true,
+            hide: 'sm',
+            "col": "dateres",
+        },
+        {
+            name: 'โรงพยาบาล',
+            selector: row => row.hos_name,
+            sortable: true,
+            hide: 'md',
+            "col": "hos_name",
+        },
+        {
+            name: 'ผู้รับบริการ',
+            selector: row => row.pre_name + row.fname + " " + row.lname,
+            sortable: true,
+            hide: 'sm',
+            "col": "fname",
+        },
+        {
+            name: 'สถานะ',
+            cell: row => {
+                var st
+                if (row.status === null) {
+                    st = "รอดำเนินการ"
+                }
+                else if (row.status === 1) {
+                    st = <p className=' text-green-600 font-bold'>สำเร็จ</p>
+                    if (row.distance === 0) {
+                    }
+                }
+                else if (row.status === 0) {
+                    st = <p className=' text-red-600 font-bold' >ยกเลิก</p>
+                }
+                return (
+                    <>
+                        {st}
+                    </>
+                )
+            },
+            sortable: true,
+            "col": "status",
+        },
+        {
+            name: 'ข้อมูลการจอง',
+            button: "true",
+            cell: row => {
+                var st
+                var bcanc
+
+                if (row.status === null) {
+                    st = "รอดำเนินการ"
+                    bcanc = <button
+                        id='editt'
+                        className=' bg-[#ff4000] text-white p-2 rounded-lg m-1'
+                        type="button"
+                        onClick={e => { setFormi(row.fm_id), setShowModal3(true), fet(row.fm_id) }}
+                    >
+                        <svg className="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fillRule="currentColor" viewBox="0 0 24 24">
+                            <path d="M14 4.2a4.1 4.1 0 0 1 5.8 0 4 4 0 0 1 0 5.7l-1.3 1.3-5.8-5.7L14 4.2Zm-2.7 2.7-5.1 5.2 2.2 2.2 5-5.2-2.1-2.2ZM5 14l-2 5.8c0 .3 0 .7.3 1 .3.3.7.4 1 .2l6-1.9L5 13.8Zm7 4 5-5.2-2.1-2.2-5.1 5.2 2.2 2.1Z" fillRule="evenodd" />
+                        </svg>
+
+                    </button>
+                }
+                else if (row.status === 1) {
+                    st = <p className=' text-green-600 font-bold'>สำเร็จ</p>
+                    if (row.distance === 0) {
+                        bcanc = <button
+                            id='canc'
+                            className=' bg-green-400 text-white p-2 rounded-lg m-1'
+                            type="button"
+                            onClick={e => { setCri(row.cm_id), setShowModal2(true), fet(row.fm_id), checkc(row.des, 1) }}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                            </svg>
+
+                        </button>
+                    }
+                }
+                else if (row.status === 0) {
+                    st = <p className=' text-red-600 font-bold' >ยกเลิก</p>
+                    bcanc = <button
+                        id='canc'
+                        className=' bg-orange-400 text-white p-2 rounded-lg m-1'
+                        type="button"
+                        onClick={e => { setFormi(row.fm_id), setShowModal2(true), fet(row.fm_id), checkc(row.des) }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                        </svg>
+
+                    </button>
+                }
+
+
+                return (
+                    <div>
+                        <button
+                            id='info'
+                            className=' bg-blue-600 text-white p-2 rounded-lg m-1'
+                            type="button"
+                            onClick={e => { setFormi(row.fm_id), setShowModal(true), fet(row.fm_id), setPrintm(true) }}
+                        >
+                            <svg className="w-6 h-6 text-white  dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fillRule="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                            </svg>
+                        </button>
+                        {bcanc}
+                    </div>)
+            }
+            ,
+
+        },
+    ];
+
+    const fetchData2 = async (val) => {
+        setLoading(true);
+
+        if (val) {
+            var url = `${process.env.NEXT_PUBLIC_APP_API}/report?hospital=${localStorage.getItem("id")}&page=${page}&per_page=${perPage}`
+            var ex = `${process.env.NEXT_PUBLIC_APP_API}/excel2?hospital=${localStorage.getItem("id")}`
+        }
+        else {
+            var url = `${process.env.NEXT_PUBLIC_APP_API}/report?page=${page}&per_page=${perPage}`
+            var ex = `${process.env.NEXT_PUBLIC_APP_API}/excel2`
+        }
+
+        const response = await axios.get(url);
+
+        setFurl(ex)
+        setData(response.data.data);
+        setTotalRows(response.data.total);
+        setLoading(false);
+    };
+
+    const fetchData = async (val) => {
+        setLoading(true);
+
+        if (val) {
+            var url = `${process.env.NEXT_PUBLIC_APP_API}/report?hospital=${localStorage.getItem("id")}&page=${page}&per_page=${perPage}`
+            var ex = `${process.env.NEXT_PUBLIC_APP_API}/excel2?hospital=${localStorage.getItem("id")}`
+            if (statusc) {
+                url += `&status=${statusc}`
+                ex += `&status=${statusc}`
+            }
+            if (start) {
+                url += `&between1=${start}`
+                ex += `&between1=${start}`
+            }
+            if (end) {
+                url += `&between2=${end}`
+                ex += `&between2=${end}`
+            }
+            if (search) {
+                url += `&search=${search}`
+                ex += `&search=${search}`
+            }
+            if (sortColumn) {
+                url += `&sort_column=${sortColumn}&sort_direction=${sortDirection}`
+                ex += `&sort_column=${sortColumn}&sort_direction=${sortDirection}`
+            }
+
+        }
+        else {
+            var url = `${process.env.NEXT_PUBLIC_APP_API}/report?page=${page}&per_page=${perPage}`
+            var ex = `${process.env.NEXT_PUBLIC_APP_API}/excel2?`
+            if (hosp) {
+                url += `&hospital=${hosp}`
+                ex += `&hospital=${hosp}`
+            }
+            if (statusc) {
+                url += `&status=${statusc}`
+                ex += `&status=${statusc}`
+            }
+            if (start) {
+                url += `&between1=${start}`
+                ex += `&between1=${start}`
+            }
+            if (end) {
+                url += `&between2=${end}`
+                ex += `&between2=${end}`
+            }
+            if (search) {
+                url += `&search=${search}`
+                ex += `&search=${search}`
+            }
+            if (sortColumn) {
+                url += `&sort_column=${sortColumn}&sort_direction=${sortDirection}`
+                ex += `&sort_column=${sortColumn}&sort_direction=${sortDirection}`
+            }
+
+        }
+
+        
+        const response = await axios.get(url);
+
+        setFurl(ex)
+        console.log(furl)
+        setData(response.data.data);
+        setTotalRows(response.data.total);
+        setLoading(false);
+    };
+
+    const handlePageChange = page => {
+        setPage(page)
+    };
+
+    const searchChange = (event) => {
+        setSearch(event.target.value)
+    }
+
+    const hospChange = (event) => {
+        setHosp(event.target.value)
+    }
+
+    const statuscChange = (event) => {
+        setStatusc(event.target.value)
+    }
+
+    const startChange = (event) => {
+        setStart(event.target.value)
+    }
+
+    const endChange = (event) => {
+        setEnd(event.target.value)
+    }
+
+    const onSearch = (event) => {
+        event.preventDefault();
+        fetchData();
+    }
+
+    const onSearch2 = (event) => {
+        event.preventDefault();
+        fetchData(1);
+    }
+
+    const handleSort = (column, sortDirection) => {
+        setSortColumn(column.col);
+        setSortDirection(sortDirection);
+    };
+
+    const handlePerRowsChange = async (newPerPage, page) => {
+        setPerPage(newPerPage);
+
+    };
+
 
     const fet = (val) => {
         fetch(process.env.NEXT_PUBLIC_APP_API + "/form2/" + val)
@@ -24,8 +309,13 @@ export default function Manage() {
             })
     }
 
+
     const excal = () => {
         window.open(process.env.NEXT_PUBLIC_APP_API + "/excal2/" + localStorage.getItem("id"))
+    }
+
+    const excel = () => {
+        window.open(furl)
     }
 
     const edit = (fm) => {
@@ -46,7 +336,7 @@ export default function Manage() {
             "editer": document.getElementById("14").value
         }
 
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/edit/" + fm , {
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/edit/" + fm, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -76,7 +366,7 @@ export default function Manage() {
             "ce": document.getElementById("cende").value
         }
 
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/statu2/edit/" + cr , {
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/statu2/edit/" + cr, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -138,13 +428,13 @@ export default function Manage() {
 
     const checkc = (des, val) => {
         setTimeout(() => {
-             if(val) {
-                 document.getElementById("resc").hidden = true
-             document.getElementById("formcone").hidden = false
-             } else {
-                 document.getElementById("resc").hidden = false
-             document.getElementById("formcone").hidden = true
-             }
+            if (val) {
+                document.getElementById("resc").hidden = true
+                document.getElementById("formcone").hidden = false
+            } else {
+                document.getElementById("resc").hidden = false
+                document.getElementById("formcone").hidden = true
+            }
 
             //document.getElementById("resc").hidden = false
 
@@ -190,17 +480,29 @@ export default function Manage() {
 
     const qry = (val) => {
         if (val === 14) {
-            fetch(process.env.NEXT_PUBLIC_APP_API + "/form2")
-                .then(res => res.json())
-                .then(result => {
-                    setForm(result);
-                });
+            setSearch("");
+            setHosp("");
+            setStatusc("");
+            setStart("");
+            setEnd("");
+            document.getElementById("strt").value = ""
+            document.getElementById("seid").value = ""
+            document.getElementById("dst").value = ""
+            document.getElementById("den").value = ""
+            document.getElementById("selecthos").value = 14
+            
+            fetchData2();
         } else {
-            fetch(process.env.NEXT_PUBLIC_APP_API + "/form2/users/" + val)
-                .then(res => res.json())
-                .then(result => {
-                    setForm(result);
-                });
+            setSearch("");
+            setHosp(localStorage.getItem("id"));
+            setStatusc("");
+            setStart("");
+            setEnd("");
+            document.getElementById("strt").value = ""
+            document.getElementById("seid").value = ""
+            document.getElementById("dst").value = ""
+            document.getElementById("den").value = ""
+            fetchData2(1);
         }
     }
 
@@ -231,55 +533,165 @@ export default function Manage() {
     useEffect(() => {
         if (localStorage.getItem("id") === "14") {
             setAdmin(true);
+            fetchData();
             fetch(process.env.NEXT_PUBLIC_APP_API + "/form2")
                 .then(res => res.json())
                 .then(result => {
                     setForm(result);
                 });
+            
         } else {
             setAdmin(false);
+            fetchData(1);
             fetch(process.env.NEXT_PUBLIC_APP_API + "/form2/users/" + localStorage.getItem("id"))
                 .then(res => res.json())
                 .then(result => {
                     setForm(result);
                 });
         };
-    }, []);
+
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/hospital2")
+            .then(res => res.json())
+            .then(result => {
+                setHos(result);
+            });
+
+    }, [page, perPage, sortColumn, sortDirection]);
     return (
         <>
             <div>
                 <div className=' print:hidden'>
                     <div className="m-6 p-2 text-center">
                         <br />
-                        <button onClick={e => excal()} className='bg-green-700 text-white p-2 rounded-lg mr-5'>Download ไฟล์ EXCAL</button>
-                        {/* <button className='bg-red-700 text-white p-2 rounded-lg'>Dowload ไฟล์ PDF</button> */}
-                        {admin ? (
-                            <>
-                                <br /><br />
-                                <button onClick={e => qry(14)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>สพบ</button>
-                                <button onClick={e => qry(1)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพก</button>
-                                <button onClick={e => qry(2)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพต</button>
-                                <button onClick={e => qry(3)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพจ</button>
-                                <button onClick={e => qry(4)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพท</button>
-                                <button onClick={e => qry(5)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพว</button>
-                                <button onClick={e => qry(6)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพภ</button>
-                                <button onClick={e => qry(7)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพร</button>
-                                <button onClick={e => qry(8)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพส</button>
-                                <button onClick={e => qry(9)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพข</button>
-                                <button onClick={e => qry(10)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพค</button>
-                                <button onClick={e => qry(11)} className='bg-green-300 text-black p-2 rounded-lg mr-5'>รพบ</button>
-                            </>
-                        ) : null}
+                        <p className="text-3xl">จัดการข้อมูลการจองรถ</p>
 
                         <br />
+                        <br />
+                        <button onClick={e => excal()} className='bg-green-700 text-white p-2 rounded-lg mr-5'>Download ข้อมูลทั้งหมด</button>
+                        {/* <button className='bg-red-700 text-white p-2 rounded-lg'>Dowload ไฟล์ PDF</button> */}
+
                     </div>
 
-                    <div className="m-6 p-2 text-center">
+                    {admin ? (
+                        <>
 
+                            <div className="m-6 border border-black rounded-3xl ">
+                                <form onSubmit={onSearch}>
+                                    <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+
+                                        <div>
+                                            <label>ค้นหา: </label><input id='seid' type="text" defaultValue={search} onChange={searchChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        </div>
+                                        <div>
+                                            <label>เลือกโรงพยาบาล: </label>
+                                            <select id='selecthos' defaultValue={hosp} onChange={hospChange} className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' >
+                                                <option value={14}>ทุกโรงพยาบาล</option>
+                                                {hos.map(h => (
+                                                    <option key={h.hos_id} value={h.hos_id}>{h.hos_name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label>สถานะดำเนินการ: </label>
+                                            <select name="strt" id="strt" defaultValue={statusc} onChange={statuscChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <option value="">สถานะทั้งหมด</option>
+                                                <option value="null">รอดำเนินการ</option>
+                                                <option value="1">สำเร็จ</option>
+                                                <option value="0">ยกเลิก</option>
+                                            </select>
+                                        </div>
+
+                                        
+                                        <div>
+                                            <label>&nbsp; </label><button type="button" onClick={e => {qry(14)}} className="bg-[#7BC634] border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">คืนค่าเริ่มต้น</button>
+                                        </div>
+
+                                    </div>
+
+                                    <hr className="h-px mx-auto my-8 bg-black border-0 dark:bg-gray-700 w-[90%] mb-6" />
+
+
+                                    <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+
+                                        <div>
+                                            <label>วันที่จองหลัง: </label><input id='dst' type="date" defaultValue={start} onChange={startChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        </div>
+                                        <div>
+                                            <label>วันที่จองก่อน: </label><input id='den' type="date" defaultValue={end} onChange={endChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        </div>
+                                        <div>
+                                            <label>&nbsp; </label><button type='submit' className="bg-blue-500 border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">ค้นหา</button>
+                                        </div>
+                                        
+                                        <div>
+                                        <br />
+                                        <button type='button' onClick={e => excel()} className='bg-[#006A33] text-white p-2 rounded-lg mr-5'>EXCEL</button>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </>
+                    ) : <>
+
+                    <div className="m-6 border border-black rounded-3xl ">
+                        <form onSubmit={onSearch2}>
+                            <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+
+                                <div>
+                                    <label>ค้นหา: </label><input id='seid' type="text" defaultValue={search} onChange={searchChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                </div>
+                                
+                                <div>
+                                    <label>สถานะดำเนินการ: </label>
+                                    <select name="strt" id="strt" defaultValue={statusc} onChange={statuscChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option value="">สถานะทั้งหมด</option>
+                                        <option value="null">รอดำเนินการ</option>
+                                        <option value="1">สำเร็จ</option>
+                                        <option value="0">ยกเลิก</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label>&nbsp; </label><button type="button" onClick={e => {qry()}} className="bg-[#7BC634] border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">คืนค่าเริ่มต้น</button>
+                                </div>
+
+                            </div>
+
+                            <hr className="h-px mx-auto my-8 bg-black border-0 dark:bg-gray-700 w-[90%] mb-6" />
+
+
+                            <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+
+                                <div>
+                                    <label>วันที่จองหลัง: </label><input id='dst' type="date" defaultValue={start} onChange={startChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                </div>
+                                <div>
+                                    <label>วันที่จองก่อน: </label><input id='den' type="date" defaultValue={end} onChange={endChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                </div>
+                                <div>
+                                    <label>&nbsp; </label><button type='submit' className="bg-blue-500 border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">ค้นหา</button>
+                                </div>
+                               
+
+                                <div>
+                                        <br />
+                                        <button type='button' onClick={e => excel()} className='bg-[#006A33] text-white p-2 rounded-lg mr-5'>EXCEL</button>
+                                        </div>
+
+                            </div>
+                        </form>
                     </div>
+                </>}
 
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
+
+                    {/* <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+
+                        <table hidden className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr className="bg-green-200">
                                     <th scope="col" className="px-6 py-3">
@@ -310,32 +722,32 @@ export default function Manage() {
                                     if (f.status === null) {
                                         st = "รอดำเนินการ"
                                         bcanc = <button
-                                        id='editt'
-                                        className=' bg-[#ff4000] text-white p-2 rounded-lg m-1'
-                                        type="button"
-                                        onClick={e => { setFormi(f.fm_id), setShowModal3(true), fet(f.fm_id) }}
-                                    >
-                                        <svg className="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fillRule="currentColor" viewBox="0 0 24 24">
-                                            <path d="M14 4.2a4.1 4.1 0 0 1 5.8 0 4 4 0 0 1 0 5.7l-1.3 1.3-5.8-5.7L14 4.2Zm-2.7 2.7-5.1 5.2 2.2 2.2 5-5.2-2.1-2.2ZM5 14l-2 5.8c0 .3 0 .7.3 1 .3.3.7.4 1 .2l6-1.9L5 13.8Zm7 4 5-5.2-2.1-2.2-5.1 5.2 2.2 2.1Z" fillRule="evenodd" />
-                                        </svg>
+                                            id='editt'
+                                            className=' bg-[#ff4000] text-white p-2 rounded-lg m-1'
+                                            type="button"
+                                            onClick={e => { setFormi(f.fm_id), setShowModal3(true), fet(f.fm_id) }}
+                                        >
+                                            <svg className="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fillRule="currentColor" viewBox="0 0 24 24">
+                                                <path d="M14 4.2a4.1 4.1 0 0 1 5.8 0 4 4 0 0 1 0 5.7l-1.3 1.3-5.8-5.7L14 4.2Zm-2.7 2.7-5.1 5.2 2.2 2.2 5-5.2-2.1-2.2ZM5 14l-2 5.8c0 .3 0 .7.3 1 .3.3.7.4 1 .2l6-1.9L5 13.8Zm7 4 5-5.2-2.1-2.2-5.1 5.2 2.2 2.1Z" fillRule="evenodd" />
+                                            </svg>
 
-                                    </button>
+                                        </button>
                                     }
                                     else if (f.status === 1) {
                                         st = <p className=' text-green-600 font-bold'>สำเร็จ</p>
-                                        if (f.distance === 0 ) {
-                                         bcanc = <button
-                                             id='canc'
-                                             className=' bg-green-400 text-white p-2 rounded-lg m-1'
-                                             type="button"
-                                             onClick={e => { setCri(f.cm_id), setShowModal2(true), fet(f.fm_id), checkc(f.des, 1) }}
-                                         >
-                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-                                             </svg>
+                                        if (f.distance === 0) {
+                                            bcanc = <button
+                                                id='canc'
+                                                className=' bg-green-400 text-white p-2 rounded-lg m-1'
+                                                type="button"
+                                                onClick={e => { setCri(f.cm_id), setShowModal2(true), fet(f.fm_id), checkc(f.des, 1) }}
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                                                </svg>
 
-                                         </button>
-                                         }
+                                            </button>
+                                        }
                                     }
                                     else if (f.status === 0) {
                                         st = <p className=' text-red-600 font-bold' >ยกเลิก</p>
@@ -381,7 +793,7 @@ export default function Manage() {
                                                         <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                                                     </svg>
                                                 </button>
-                                                
+
                                                 {bcanc}
                                             </td>
                                         </tr>
@@ -390,8 +802,36 @@ export default function Manage() {
                                 })}
 
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan="6" className="text-right p-2">
+                                        <label>หน้าที่: </label>
+                                        <input type="number" defaultValue={1} className="w-12 border border-black rounded m-2 p-1" />
+                                        <label htmlFor="">แสดงข้อมูล: </label>
+                                        <input type="number" defaultValue={25} className="w-12 border border-black rounded m-2 p-1" />
+                                        <label htmlFor=""> แถว</label>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
-                    </div>
+                    </div> */}
+                </div>
+
+
+                <div className='relative overflow-x-auto shadow-md sm:rounded-lg print:hidden'>
+                    <DataTable
+                        title="ข้อมูลการขอใช้รถ"
+                        columns={columns}
+                        data={data}
+                        progressPending={loading}
+                        pagination
+                        paginationServer
+                        paginationTotalRows={totalRows}
+                        onChangeRowsPerPage={handlePerRowsChange}
+                        onChangePage={handlePageChange}
+                        onSort={handleSort}
+                    />
+
                 </div>
 
                 {showModal ? (
@@ -639,7 +1079,7 @@ export default function Manage() {
                                                     <div className="text-center">
 
                                                         <button
-                                                            
+
                                                             className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                             type="submit"
                                                             onClick={() => { dissend(cri) }}

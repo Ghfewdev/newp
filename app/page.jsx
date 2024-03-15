@@ -11,7 +11,7 @@ export default function Page() {
       </div>
       <br />
       <br />
-      <p className="font-bold text-center uppercase text-3xl">ระบบรถรับส่งผู้พิการ</p>
+      <p className="font-bold text-center uppercase text-3xl">ระบบรถรับส่งผู้พิการ และผู้สูงอายุ</p>
       <br />
       <br />
       <p className="font-bold text-center uppercase text-3xl">ติดต่อเรา</p>
