@@ -250,7 +250,7 @@ export default function Manage() {
         const response = await axios.get(url);
 
         setFurl(ex)
-        console.log(furl)
+        //console.log(furl)
         setData(response.data.data);
         setTotalRows(response.data.total);
         setLoading(false);
@@ -346,7 +346,7 @@ export default function Manage() {
             .then(res => res.json())
             .then(result => {
 
-                console.log(result)
+                //console.log(result)
                 if (result.status === "ok") {
                     // document.getElementById("editda").disabled = true
                     alert("แก้ไขข้อมูลแล้ว")
@@ -376,7 +376,7 @@ export default function Manage() {
             .then(res => res.json())
             .then(result => {
 
-                console.log(result)
+                //console.log(result)
                 if (result.status === "ok") {
                     // document.getElementById("editda").disabled = true
                     alert("เพิ่มข้อมูลแล้ว")
@@ -416,7 +416,7 @@ export default function Manage() {
         })
             .then(res => res.json())
             .then(result => {
-                console.log(result)
+                //console.log(result)
                 if (result.status === "ok") {
                     document.getElementById("redc").disabled = true
                     window.location = "/manage"
@@ -468,7 +468,7 @@ export default function Manage() {
             .then(res => res.json())
             .then(result => {
 
-                console.log(result)
+                //console.log(result)
                 if (result.status === "ok") {
                     document.getElementById("gres").disabled = true
                     window.location = "/manage"

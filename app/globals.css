@@ -5,5 +5,7 @@
 @font-face {
     font-family: "THSarabunIT๙";
     src: url("Font/THSarabunIT๙.ttf") format("truetype");
+    font-family: "THSarabun";
+    src: url("Font/THSarabun.ttf") format("truetype");
 }
 

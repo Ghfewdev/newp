@@ -1,15 +1,13 @@
+"use client"
 import React from 'react'
-
-export const metadata = {
-    title: "Dashboard",
-    description: "Dashboard Now"
-}
+import Authen from '../components/Authen'
 
 export default function Dashboard() {
+    Authen();
     return (
         <>
             <div>
-                <p className="font-bold text-center uppercase text-3xl">Contact</p>
+                <p className="font-bold text-center uppercase text-3xl">Dashboard</p>
                 <br />
                 <p className="text-center text-xl">สำนักงานพัฒนาระบบบริการทางการแพทย์</p>
                 <br />

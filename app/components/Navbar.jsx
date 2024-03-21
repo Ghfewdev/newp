@@ -64,7 +64,7 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                <ul className='hidden md:flex uppercase font-semibold text-1xl lg:text-[20px] text-slate-800'>
+                <ul className='hidden md:flex uppercase font-semibold text-base lg:text-[20px] text-slate-800'>
 
                     <li className='text-[#FFEA00] mr-4 lg:mr-8 hover:text-[#7BC634]'>
                         <Link href={"/"}>หน้าแรก</Link>
@@ -76,14 +76,16 @@ export default function Navbar() {
                         <Link href={"/manage"}>จัดการข้อมูลขอใช้รถ</Link>
                     </li>
                     {/* <li className='text-[#FFEA00] hover:text-[#7BC634]'>
-                        <Link href={"/contact"}></Link>
+                        <Link href={"/dashboard"}>Dashboard</Link>
                     </li> */}
+                    
 
                 </ul>
 
                 <div className='hidden md:flex'>
                     <div className=' flex '>
-                        <div id="pf" hidden><img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="pf" className="w-10 mr-3" /></div>
+                        
+                        <div id="pf" hidden><img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="pf" className="w-10 mr-3 " /></div>
                         <div className=' mr-4'>
                             <input type='text' readOnly id='profile' className='text-center bg-[#F0FDF0] border-2 border-[#87827b] text-black rounded-md  uppercase font-bold py-2' hidden />
                         </div>
@@ -91,7 +93,7 @@ export default function Navbar() {
                             <button id='login' className=' mr-5 bg-[#06fc47] text-slate-800 hover:bg-slate-800 hover:text-[#dec] rounded-lg uppercase font-bold px-8 py-2' hidden>เข้าสู่ระบบ</button>
                         </Link>
                         <Link href={"/"}>
-                            <button id='logout' onClick={e => handleLogout()} className='bg-[#d43d3d] border-2 border-[#87827b] text-black rounded-lg uppercase font-bold px-8 py-2 hover:bg-blue-400 hover:text-white' hidden>
+                            <button id='logout' onClick={e => handleLogout()} className='bg-[#d43d3d] border-2 border-[#87827b] text-black rounded-lg uppercase font-bold px-2 py-2 hover:bg-blue-400 hover:text-white' hidden>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                                 </svg>
@@ -131,7 +133,7 @@ export default function Navbar() {
                             </li>
 
                             {/* <li onClick={handleSCN} className=' py-5 hover:text-[#cefd] cursor-pointer'>
-                                <Link href={"/contact"}></Link>
+                                <Link href={"/dashboard"}>Dashboard</Link>
                             </li> */}
 
 
@@ -140,10 +142,7 @@ export default function Navbar() {
 
                         <div className='flex flex-col justify-center items-center mt-1'>
 
-
                             <input id='profile2' readOnly className=' bg-[#f8ef02dd] text-slate-800 rounded-full uppercase font-bold py-3 w-[250px] mb-5 text-center' hidden />
-
-
 
                             <Link href={"/login"} onClick={handleSCN}>
                                 <button id='login2' className=' bg-[#f8ef02dd] text-slate-800 rounded-full uppercase font-bold py-3 w-[250px] mb-5' hidden>เข้าสู่ระบบ</button>
