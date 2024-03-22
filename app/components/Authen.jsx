@@ -24,8 +24,9 @@ const Authen = () => {
                     localStorage.removeItem("name");
                     localStorage.removeItem("department");
                     localStorage.removeItem("token");
-                    router.push('/login', { scroll: false })
                     window.location = "/login";
+                    router.push('/login', { scroll: false })
+                    
                 } else {
                     
                 }
@@ -36,8 +37,9 @@ const Authen = () => {
             })
         } catch {
             alert("คุณต้องเข้าสู่ระบบก่อน")
-            router.push('/login', { scroll: false })
             window.location = "/login"
+            router.push('/login', { scroll: false })
+            
         }
         
         

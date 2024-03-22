@@ -24,8 +24,9 @@ export default function Navbar() {
         localStorage.removeItem("department");
         localStorage.removeItem("token");
         document.getElementById("pf").hidden = true
-        router.push("/", { scroll: false });
         window.location = "/";
+        router.push("/", { scroll: false });
+        
         
     }
 

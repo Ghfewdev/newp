@@ -3,11 +3,12 @@ import DataTable from 'react-data-table-component';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Authen from '../components/Authen';
-
+import { useRouter } from 'next/navigation'
 
 
 export default function Manage() {
     Authen();
+    const router = useRouter();
     const [furl, setFurl] = useState("");
     const [form, setForm] = useState([]);
     const [select, setSelect] = useState([]);
@@ -350,6 +351,7 @@ export default function Manage() {
                 if (result.status === "ok") {
                     // document.getElementById("editda").disabled = true
                     alert("แก้ไขข้อมูลแล้ว")
+                    router.push("/manage", { scroll: false });
                     window.location = "/manage"
                 } else {
                     alert("ใส่ข้อมูลให้ครบ")
@@ -380,6 +382,7 @@ export default function Manage() {
                 if (result.status === "ok") {
                     // document.getElementById("editda").disabled = true
                     alert("เพิ่มข้อมูลแล้ว")
+                    router.push("/manage", { scroll: false });
                     window.location = "/manage"
                 } else {
                     alert("ใส่ข้อมูลให้ครบ")
@@ -419,6 +422,7 @@ export default function Manage() {
                 //console.log(result)
                 if (result.status === "ok") {
                     document.getElementById("redc").disabled = true
+                    router.push("/manage", { scroll: false });
                     window.location = "/manage"
                 }
             })
@@ -471,6 +475,7 @@ export default function Manage() {
                 //console.log(result)
                 if (result.status === "ok") {
                     document.getElementById("gres").disabled = true
+                    router.push("/manage", { scroll: false });
                     window.location = "/manage"
                 } else {
                     alert("ใส่ข้อมูลให้ครบ")

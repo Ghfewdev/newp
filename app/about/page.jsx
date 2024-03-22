@@ -265,8 +265,9 @@ export default function About() {
             .then(result => {
                 console.log(result)
                 if (result.status === "ok") {
-                    router.push('/manage', { scroll: false })
                     window.location = "/manage"
+                    router.push('/manage', { scroll: false })
+                    
                 } else {
                     alert("ตรวจสอบความถูกต้องข้อข้อมูลอีกครั้ง")
                 }
