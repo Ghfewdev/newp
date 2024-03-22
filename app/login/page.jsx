@@ -1,8 +1,12 @@
 "use client"
 import React from 'react'
+import { useRouter } from 'next/navigation'
+ 
+
 
 export default function Login() {
-
+    const router = useRouter();
+    
     const handleSubmit = (event) => {
         event.preventDefault()
         const data = {
@@ -23,6 +27,7 @@ export default function Login() {
                     localStorage.setItem("id", result.id);
                     localStorage.setItem("department", result.dep)
                     localStorage.setItem("token", result.token);
+                    router.push('/manage', { scroll: false })
                     window.location = "/manage";
                 } else {
                     alert("รหัสผ่าน หรือ ชื่อผู้ใช้ไม่ถูกต้อง")

@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import Authen from '../components/Authen';
 import Agecal from '../components/Agecal';
+import { useRouter } from 'next/navigation'
 
 export default function About() {
     Authen();
+    const router = useRouter();
     const [hos, setHos] = useState([]);
     const [pre, setPre] = useState([]);
     //const [dis, setDis] = useState([]);
@@ -263,6 +265,7 @@ export default function About() {
             .then(result => {
                 console.log(result)
                 if (result.status === "ok") {
+                    router.push('/manage', { scroll: false })
                     window.location = "/manage"
                 } else {
                     alert("ตรวจสอบความถูกต้องข้อข้อมูลอีกครั้ง")

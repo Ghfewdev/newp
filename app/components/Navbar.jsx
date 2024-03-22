@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import Link from "next/link"
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai"
+import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
+    const router = useRouter();
     const [menuIcon, setIcon] = useState(false)
 
     const profile = () => {
@@ -21,8 +23,10 @@ export default function Navbar() {
         localStorage.removeItem("name");
         localStorage.removeItem("department");
         localStorage.removeItem("token");
-        window.location = "/";
         document.getElementById("pf").hidden = true
+        router.push("/", { scroll: false });
+        window.location = "/";
+        
     }
 
     useEffect(() => {

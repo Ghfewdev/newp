@@ -1,7 +1,9 @@
 
 import React, {useEffect} from 'react'
+import { useRouter } from 'next/navigation'
 
 const Authen = () => {
+    const router = useRouter();
     useEffect(() => {
         try{
             const token = localStorage.getItem("token").split("$")[0]
@@ -22,6 +24,7 @@ const Authen = () => {
                     localStorage.removeItem("name");
                     localStorage.removeItem("department");
                     localStorage.removeItem("token");
+                    router.push('/login', { scroll: false })
                     window.location = "/login";
                 } else {
                     
@@ -33,6 +36,7 @@ const Authen = () => {
             })
         } catch {
             alert("คุณต้องเข้าสู่ระบบก่อน")
+            router.push('/login', { scroll: false })
             window.location = "/login"
         }
         
