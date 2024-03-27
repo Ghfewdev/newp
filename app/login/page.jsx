@@ -27,8 +27,8 @@ export default function Login() {
                     localStorage.setItem("id", result.id);
                     localStorage.setItem("department", result.dep)
                     localStorage.setItem("token", result.token);
-                    window.location = "/manage";
-                    router.push('/manage', { scroll: false })
+                    window.location = "/";
+                    router.push('/', { scroll: false })
                     
                 } else {
                     alert("รหัสผ่าน หรือ ชื่อผู้ใช้ไม่ถูกต้อง")

@@ -61,13 +61,38 @@ export default function About() {
 
     }
 
+    const conc = () => {
+        var pac = 0;
+        if (document.getElementById("condition7").checked === true) {
+           for(var i = 8;i <= 14; i++) {
+            document.getElementById(`condition${i}`).required = true
+            if (document.getElementById(`condition${i}`).checked === true) {
+                pac = 1
+            }
+        }
+        } else {
+            for(var i = 8;i <= 14; i++) {
+                document.getElementById(`condition${i}`).required = false
+            }
+        }
+        if (pac === 1) {
+            for(var i = 8;i <= 14; i++) {
+                document.getElementById(`condition${i}`).required = false
+            }
+        }
+        
+    }
+
     const opti = () => {
         setHosid(localStorage.getItem("id"))
         setHosname(localStorage.getItem("department"))
     }
 
      const eva = () => {
-         if(document.querySelector('input[name="mett"]:checked').value === "ส่งต่อเยี่ยมบ้าน") {
+        if (document.getElementById("condition-1").checked === true) {
+            evals = "ไม่เข้าเงื่อนไขขอใช้รถ"
+        }
+        else if(document.querySelector('input[name="mett"]:checked').value === "ส่งต่อเยี่ยมบ้าน") {
             evals = document.querySelector('input[name="mett"]:checked').value + "โดย" + document.querySelector('input[name="send"]:checked').value
         }
          else
@@ -229,29 +254,6 @@ export default function About() {
     const handleSubmit = (event) => {
         event.preventDefault()
 
-        // const jsondata = {
-        //     "hos": document.getElementById("selecthos").value,
-        //     "date": document.getElementById("date").value,
-        //     "sitizen": document.getElementById("sitizen").value,
-        //     "preflix": document.getElementById("selectpre").value,
-        //     "fname": document.getElementById("fname").value,
-        //     "lname": document.getElementById("lname").value,
-        //     "age": document.getElementById("age").value,
-        //     "num": document.getElementById("num").value,
-        //     "streed": document.getElementById("streed").value,
-        //     "subdistrict": document.getElementById("subdistrict").value,
-        //     "district": document.getElementById("selectdis").value,
-        //     "zip": document.getElementById("zip").value,
-        //     "call": document.getElementById("call").value,
-        //     "dateres": document.getElementById("dateres").value,
-        //     "met": document.querySelector('input[name="met"]:checked').value,
-        //     "start": start,
-        //     "end": end,
-        //     "condition": cond,
-        //     "editer": document.getElementById("editer").value,
-        //     "time": t
-        // }
-
         const jsondata = createdata()
 
         fetch(process.env.NEXT_PUBLIC_APP_API + "/fill2", {
@@ -278,6 +280,8 @@ export default function About() {
     
 
     const con = (val, val2) => {
+       
+
         if (document.getElementById('condition6').checked === true) {
             document.getElementById("alther").disabled = false
             document.getElementById("alther").focus()
@@ -296,9 +300,12 @@ export default function About() {
         if (val) {
             if (document.getElementById("condition2").checked === false && document.getElementById("condition3").checked === false && document.getElementById("condition4").checked === false && document.getElementById("condition5").checked === false && document.getElementById("condition6").checked === false && document.getElementById("condition7").checked === false) {
                 document.getElementById("rech").hidden = true
+                document.getElementById("addre").hidden = true
+                
             }
             else {
                 document.getElementById("rech").hidden = false
+                
             }
         } 
         
@@ -309,6 +316,8 @@ export default function About() {
             document.getElementById("condition4").disabled = false
             document.getElementById("condition5").disabled = false
             document.getElementById("condition6").disabled = false
+            
+            
         }
          else {
             document.getElementById("condition2").checked = false
@@ -324,7 +333,13 @@ export default function About() {
             document.getElementById("condition6").disabled = true
             document.getElementById("alther").disabled = true
             document.getElementById("rech").hidden = true
+            document.getElementById("addre").hidden = true
             
+
+        }
+
+        if(document.querySelector('input[name="mett"]:checked').value === "เข้าเงื่อนไขการขอใช้รถ") {
+            document.getElementById("addre").hidden = false
         }
     }
 
@@ -534,7 +549,7 @@ export default function About() {
 
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-6 pl-6 pr-6">
-                        <Agecal agg="condition1" />
+                        <Agecal agg="condition"/>
 
                     </div>
 
@@ -546,7 +561,7 @@ export default function About() {
                             <div className="grid gap-6 mb-6 md:grid-cols-1 pl-6 pr-6 mt-6">
                                 <div><input type="checkbox" disabled onClick={e => con()} id="condition1" name="condition2" value="ผู้สูงอายุ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: ผู้สูงอายุ</label></div>
-                                <div><input type="checkbox" onClick={e => con()} id="condition7" name="condition2" value="คนพิการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition7" name="condition2" value="คนพิการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required/>
                                     <label className='ml-2 mr-4'>: คนพิการ</label></div>
 
                                 <div id='ihid' hidden>
@@ -554,19 +569,19 @@ export default function About() {
                                     <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                                         <div className="grid gap-6 mb-3 md:grid-cols-2 pl-3 pr-3 mt-3">
 
-                                            <div><input type="checkbox" onClick={e => con()} id="condition8" name="condition" value="การเห็น" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition8" name="condition" value="การเห็น" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-4'>: การเห็น</label></div>
-                                            <div><input type="checkbox" onClick={e => con()} id="condition9" name="condition" value="การได้ยินหรือสื่อความหมาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition9" name="condition" value="การได้ยินหรือสื่อความหมาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-4'>: การได้ยินหรือสื่อความหมาย</label></div>
-                                            <div><input type="checkbox" onClick={e => con()} id="condition10" name="condition" value="การเคลื่อนไหวหรือทางร่างกาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition10" name="condition" value="การเคลื่อนไหวหรือทางร่างกาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-2'>: การเคลื่อนไหวหรือทางร่างกาย</label></div>
-                                            <div><input type="checkbox" onClick={e => con()} id="condition11" name="condition" value="จิตใจหรือพฤติกรรม" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition11" name="condition" value="จิตใจหรือพฤติกรรม" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-4'>: จิตใจหรือพฤติกรรม</label></div>
-                                            <div><input type="checkbox" onClick={e => con()} id="condition12" name="condition" value="สติปัญญา" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition12" name="condition" value="สติปัญญา" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-2'>: สติปัญญา</label></div>
-                                            <div><input type="checkbox" onClick={e => con()} id="condition13" name="condition" value="การเรียนรู้" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition13" name="condition" value="การเรียนรู้" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-2'>: การเรียนรู้</label></div>
-                                            <div><input type="checkbox" onClick={e => con()} id="condition14" name="condition" value="ออทิสติก" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition14" name="condition" value="ออทิสติก" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-2'>: ออทิสติก</label></div></div>
                                     </div>
                                 </div>

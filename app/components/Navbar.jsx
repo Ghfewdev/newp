@@ -42,6 +42,8 @@ export default function Navbar() {
             document.getElementById("manage2").hidden = false
             document.getElementById("regis").hidden = false
             document.getElementById("regis2").hidden = false
+            //document.getElementById("dash").hidden = false
+            //document.getElementById("dash2").hidden = false
             setTimeout(() => {
                 document.getElementById("profile").value = profile()
                 document.getElementById("profile2").value = profile()
@@ -58,6 +60,8 @@ export default function Navbar() {
             document.getElementById("regis2").hidden = true
             document.getElementById("manage").hidden = true
             document.getElementById("manage2").hidden = true
+            //document.getElementById("dash").hidden = true
+            //document.getElementById("dash2").hidden = true
         }
     }, []);
     return (
@@ -80,9 +84,9 @@ export default function Navbar() {
                     <li id='manage' hidden className=' text-[#FFEA00] mr-4 lg:mr-8 hover:text-[#7BC634]'>
                         <Link href={"/manage"}>จัดการข้อมูลขอใช้รถ</Link>
                     </li>
-                    {/* <li className='text-[#FFEA00] hover:text-[#7BC634]'>
+                    <li id='dash' hidden className='text-[#FFEA00] hover:text-[#7BC634]'>
                         <Link href={"/dashboard"}>Dashboard</Link>
-                    </li> */}
+                    </li>
                     
 
                 </ul>
@@ -137,9 +141,9 @@ export default function Navbar() {
                                 <Link href={"/manage"}>จัดการข้อมูลขอใช้รถ</Link>
                             </li>
 
-                            {/* <li onClick={handleSCN} className=' py-5 hover:text-[#cefd] cursor-pointer'>
+                            <li id='dash2' hidden onClick={handleSCN} className=' py-5 hover:text-[#cefd] cursor-pointer'>
                                 <Link href={"/dashboard"}>Dashboard</Link>
-                            </li> */}
+                            </li>
 
 
 

@@ -19,16 +19,27 @@ export default function Agecal(props) {
                 setAge("0")
             } else if (age <= -1) {
                 setAge(age+543)
-            } else
-            setAge(age);
-            
-            if (age >= 60) {
-                document.getElementById(props.agg).checked = true
-                
+
+                if ((age+543) >= 60) {
+                    document.getElementById(`${props.agg}1`).checked = true
+                    document.getElementById(`${props.agg}7`).required = false
+                } else {
+                    document.getElementById(`${props.agg}1`).checked = false
+                    
+                }
             } else {
-                document.getElementById(props.agg).checked = false
-                
+                setAge(age);
+
+                if (age >= 60) {
+                    document.getElementById(`${props.agg}1`).checked = true
+                    document.getElementById(`${props.agg}7`).required = false
+                    
+                } else {
+                    document.getElementById(`${props.agg}1`).checked = false
+                    
+                }
             }
+            
             //console.log(document.getElementById(props.agg).value)
             
         }, 100);
