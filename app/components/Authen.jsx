@@ -24,21 +24,21 @@ const Authen = () => {
                     localStorage.removeItem("name");
                     localStorage.removeItem("department");
                     localStorage.removeItem("token");
-                    window.location = "/login";
-                    router.push('/login', { scroll: false })
+                    window.location = "/";
+                    router.push('/', { scroll: false })
                     
-                } else {
-                    
-                }
-
+                } 
+                // else {
+                
+                // }
             })
             .catch((error) => {
                 console.log("Error: ", error)
             })
         } catch {
             alert("คุณต้องเข้าสู่ระบบก่อน")
-            window.location = "/login"
-            router.push('/login', { scroll: false })
+            window.location = "/"
+            router.push('/', { scroll: false })
             
         }
         

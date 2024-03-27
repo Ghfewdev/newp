@@ -140,23 +140,37 @@ export default function About() {
         else
             end = document.getElementById("eselecthos").value
 
-        if (document.getElementById(`condition-1`).checked === false) {
-        for (var i = 1; i <= 14; i++) {
-            if (document.getElementById(`condition${i}`).checked === true) {
-                if (i === 6 && document.getElementById('condition6').checked === true)
-                    cond += document.getElementById("alther").value
-                else
-                    cond += document.getElementById(`condition${i}`).value
-                if (i != 14)
-                    cond += ", "
-            } else {
-                cond += "-"
-                if (i != 14)
-                    cond += ", "
+            for (var i = 1; i <= 14; i++) {
+                if (document.getElementById(`condition${i}`).checked === true) {
+                    if (i === 6 && document.getElementById('condition6').checked === true)
+                        cond += document.getElementById("alther").value
+                    else
+                        cond += document.getElementById(`condition${i}`).value
+                    if (i != 14)
+                        cond += ", "
+                } else {
+                    cond += "-"
+                    if (i != 14)
+                        cond += ", "
+                }
             }
-        }} else {
-            cond = "-, -, -, -, -, -, -, -, -, -, -, -, -, -"
-        }
+        // if (document.getElementById(`condition-1`).checked === false) {
+        // for (var i = 1; i <= 14; i++) {
+        //     if (document.getElementById(`condition${i}`).checked === true) {
+        //         if (i === 6 && document.getElementById('condition6').checked === true)
+        //             cond += document.getElementById("alther").value
+        //         else
+        //             cond += document.getElementById(`condition${i}`).value
+        //         if (i != 14)
+        //             cond += ", "
+        //     } else {
+        //         cond += "-"
+        //         if (i != 14)
+        //             cond += ", "
+        //     }
+        // }} else {
+        //     cond = "-, -, -, -, -, -, -, -, -, -, -, -, -, -"
+        // }
 
         var jsondata
 
