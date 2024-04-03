@@ -42,7 +42,8 @@ export default function Navbar() {
             document.getElementById("manage2").hidden = false
             document.getElementById("regis").hidden = false
             document.getElementById("regis2").hidden = false
-            //document.getElementById("dash").hidden = false
+            if(localStorage.getItem("id") === "14")
+            document.getElementById("dash").hidden = false
             //document.getElementById("dash2").hidden = false
             setTimeout(() => {
                 document.getElementById("profile").value = profile()
@@ -60,7 +61,7 @@ export default function Navbar() {
             document.getElementById("regis2").hidden = true
             document.getElementById("manage").hidden = true
             document.getElementById("manage2").hidden = true
-            //document.getElementById("dash").hidden = true
+            document.getElementById("dash").hidden = true
             //document.getElementById("dash2").hidden = true
         }
     }, []);

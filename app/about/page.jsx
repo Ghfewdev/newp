@@ -25,6 +25,7 @@ export default function About() {
     const [provinces3, setProvinces3] = useState("");
     const [zipcode3, setZipcode3] = useState("");
     const [amphoe3, setAmphoe3] = useState("");
+    const [way, setWay] = useState("");
 
     var com
     var cond
@@ -64,23 +65,23 @@ export default function About() {
     const conc = () => {
         var pac = 0;
         if (document.getElementById("condition7").checked === true) {
-           for(var i = 8;i <= 14; i++) {
-            document.getElementById(`condition${i}`).required = true
-            if (document.getElementById(`condition${i}`).checked === true) {
-                pac = 1
+            for (var i = 8; i <= 14; i++) {
+                document.getElementById(`condition${i}`).required = true
+                if (document.getElementById(`condition${i}`).checked === true) {
+                    pac = 1
+                }
             }
-        }
         } else {
-            for(var i = 8;i <= 14; i++) {
+            for (var i = 8; i <= 14; i++) {
                 document.getElementById(`condition${i}`).required = false
             }
         }
         if (pac === 1) {
-            for(var i = 8;i <= 14; i++) {
+            for (var i = 8; i <= 14; i++) {
                 document.getElementById(`condition${i}`).required = false
             }
         }
-        
+
     }
 
     const opti = () => {
@@ -88,17 +89,21 @@ export default function About() {
         setHosname(localStorage.getItem("department"))
     }
 
-     const eva = () => {
+    const waym = () => {
+        console.log(way)
+    }
+
+    const eva = () => {
         if (document.getElementById("condition-1").checked === true) {
             evals = "ไม่เข้าเงื่อนไขขอใช้รถ"
         }
-        else if(document.querySelector('input[name="mett"]:checked').value === "ส่งต่อเยี่ยมบ้าน") {
+        else if (document.querySelector('input[name="mett"]:checked').value === "ส่งต่อเยี่ยมบ้าน") {
             evals = document.querySelector('input[name="mett"]:checked').value + "โดย" + document.querySelector('input[name="send"]:checked').value
         }
-         else
-         evals = document.querySelector('input[name="mett"]:checked').value
+        else
+            evals = document.querySelector('input[name="mett"]:checked').value
         return evals
-     }
+    }
 
     const showadd = (val) => {
         if (document.querySelector('input[name="mett"]:checked').value === "เข้าเงื่อนไขการขอใช้รถ") {
@@ -118,13 +123,13 @@ export default function About() {
             document.getElementById("addre").hidden = true
             com = 0
         }
-        
+
     }
 
     const createdata = () => {
         //cond = document.querySelector('input[name="condition"]:checked').value
         com = 0
-        if(document.querySelector('input[name="mett"]:checked').value === "เข้าเงื่อนไขการขอใช้รถ") {
+        if (document.querySelector('input[name="mett"]:checked').value === "เข้าเงื่อนไขการขอใช้รถ") {
             com = 1
         }
         evals = eva()
@@ -140,20 +145,20 @@ export default function About() {
         else
             end = document.getElementById("eselecthos").value
 
-            for (var i = 1; i <= 14; i++) {
-                if (document.getElementById(`condition${i}`).checked === true) {
-                    if (i === 6 && document.getElementById('condition6').checked === true)
-                        cond += document.getElementById("alther").value
-                    else
-                        cond += document.getElementById(`condition${i}`).value
-                    if (i != 14)
-                        cond += ", "
-                } else {
-                    cond += "-"
-                    if (i != 14)
-                        cond += ", "
-                }
+        for (var i = 1; i <= 14; i++) {
+            if (document.getElementById(`condition${i}`).checked === true) {
+                if (i === 6 && document.getElementById('condition6').checked === true)
+                    cond += document.getElementById("alther").value
+                else
+                    cond += document.getElementById(`condition${i}`).value
+                if (i != 14)
+                    cond += ", "
+            } else {
+                cond += "-"
+                if (i != 14)
+                    cond += ", "
             }
+        }
         // if (document.getElementById(`condition-1`).checked === false) {
         // for (var i = 1; i <= 14; i++) {
         //     if (document.getElementById(`condition${i}`).checked === true) {
@@ -177,6 +182,7 @@ export default function About() {
         if (com === 1) {
             jsondata = {
                 "hos": document.getElementById("selecthos").value,
+                "way": way,
                 "date": document.getElementById("date").value,
                 "sitizen": document.getElementById("sitizen").value,
                 "preflix": document.getElementById("selectpre").value,
@@ -201,9 +207,10 @@ export default function About() {
                 "ac": 1,
                 "acd": evals
             }
-        } else if (com === 0){
+        } else if (com === 0) {
             jsondata = {
                 "hos": document.getElementById("selecthos").value,
+                "way": way,
                 "date": document.getElementById("date").value,
                 "sitizen": document.getElementById("sitizen").value,
                 "preflix": document.getElementById("selectpre").value,
@@ -283,7 +290,7 @@ export default function About() {
                 if (result.status === "ok") {
                     window.location = "/manage"
                     router.push('/manage', { scroll: false })
-                    
+
                 } else {
                     alert("ตรวจสอบความถูกต้องข้อข้อมูลอีกครั้ง")
                 }
@@ -291,10 +298,10 @@ export default function About() {
 
     }
 
-    
+
 
     const con = (val, val2) => {
-       
+
 
         if (document.getElementById('condition6').checked === true) {
             document.getElementById("alther").disabled = false
@@ -315,25 +322,24 @@ export default function About() {
             if (document.getElementById("condition2").checked === false && document.getElementById("condition3").checked === false && document.getElementById("condition4").checked === false && document.getElementById("condition5").checked === false && document.getElementById("condition6").checked === false && document.getElementById("condition7").checked === false) {
                 document.getElementById("rech").hidden = true
                 document.getElementById("addre").hidden = true
-                
+
             }
             else {
                 document.getElementById("rech").hidden = false
-                
+
             }
-        } 
-        
-        if (document.getElementById("condition-1").checked === false)
-        {
+        }
+
+        if (document.getElementById("condition-1").checked === false) {
             document.getElementById("condition2").disabled = false
             document.getElementById("condition3").disabled = false
             document.getElementById("condition4").disabled = false
             document.getElementById("condition5").disabled = false
             document.getElementById("condition6").disabled = false
-            
-            
+
+
         }
-         else {
+        else {
             document.getElementById("condition2").checked = false
             document.getElementById("condition3").checked = false
             document.getElementById("condition4").checked = false
@@ -348,11 +354,11 @@ export default function About() {
             document.getElementById("alther").disabled = true
             document.getElementById("rech").hidden = true
             document.getElementById("addre").hidden = true
-            
+
 
         }
 
-        if(document.querySelector('input[name="mett"]:checked').value === "เข้าเงื่อนไขการขอใช้รถ") {
+        if (document.querySelector('input[name="mett"]:checked').value === "เข้าเงื่อนไขการขอใช้รถ") {
             document.getElementById("addre").hidden = false
         }
     }
@@ -487,9 +493,9 @@ export default function About() {
 
     const check = () => {
         if (document.getElementById("check").checked === true) {
-        
+
             document.getElementById("submit").disabled = false
-}
+        }
         else
             document.getElementById("submit").disabled = true
         createdata();
@@ -524,6 +530,17 @@ export default function About() {
                                 <option value={hosid}>{hosname}</option>
                             </select>
                             {/* <input type="text" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' readOnly value={String(localStorage.getItem("id"))} /> */}
+                        </div>
+                    </div>
+                    <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ช่องทางเข้ารับบริการ</label>
+                            <input type="radio" id="way1" name="way" onChange={e => { setWay(e.target.value) }} value="LINE add" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                            <label className='ml-2 mr-2'>: LINE add</label><br />
+                            <input type="radio" id="way2" name="way" onChange={e => { setWay(e.target.value) }} value="โทรศัพท์" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                            <label className='ml-2 mr-2'>: โทรศัพท์</label><br />
+                            <input type="radio" id="way3" name="way" onChange={e => { setWay(e.target.value) }} value="Easy Chat หมอ กทม." className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                            <label className='ml-2 mr-2'>: Easy Chat หมอ กทม.</label><br />
                         </div>
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
@@ -563,7 +580,7 @@ export default function About() {
 
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-6 pl-6 pr-6">
-                        <Agecal agg="condition"/>
+                        <Agecal agg="condition" />
 
                     </div>
 
@@ -575,7 +592,7 @@ export default function About() {
                             <div className="grid gap-6 mb-6 md:grid-cols-1 pl-6 pr-6 mt-6">
                                 <div><input type="checkbox" disabled onClick={e => con()} id="condition1" name="condition2" value="ผู้สูงอายุ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: ผู้สูงอายุ</label></div>
-                                <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition7" name="condition2" value="คนพิการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required/>
+                                <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition7" name="condition2" value="คนพิการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required />
                                     <label className='ml-2 mr-4'>: คนพิการ</label></div>
 
                                 <div id='ihid' hidden>
@@ -583,19 +600,19 @@ export default function About() {
                                     <div className='flex items-center p-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white'>
                                         <div className="grid gap-6 mb-3 md:grid-cols-2 pl-3 pr-3 mt-3">
 
-                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition8" name="condition" value="การเห็น" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition8" name="condition" value="การเห็น" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-4'>: การเห็น</label></div>
-                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition9" name="condition" value="การได้ยินหรือสื่อความหมาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition9" name="condition" value="การได้ยินหรือสื่อความหมาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-4'>: การได้ยินหรือสื่อความหมาย</label></div>
-                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition10" name="condition" value="การเคลื่อนไหวหรือทางร่างกาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition10" name="condition" value="การเคลื่อนไหวหรือทางร่างกาย" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-2'>: การเคลื่อนไหวหรือทางร่างกาย</label></div>
-                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition11" name="condition" value="จิตใจหรือพฤติกรรม" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition11" name="condition" value="จิตใจหรือพฤติกรรม" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-4'>: จิตใจหรือพฤติกรรม</label></div>
-                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition12" name="condition" value="สติปัญญา" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition12" name="condition" value="สติปัญญา" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-2'>: สติปัญญา</label></div>
-                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition13" name="condition" value="การเรียนรู้" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition13" name="condition" value="การเรียนรู้" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-2'>: การเรียนรู้</label></div>
-                                            <div><input type="checkbox" onClick={e => {con(), conc()}} id="condition14" name="condition" value="ออทิสติก" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition14" name="condition" value="ออทิสติก" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                 <label className='ml-2 mr-2'>: ออทิสติก</label></div></div>
                                     </div>
                                 </div>
