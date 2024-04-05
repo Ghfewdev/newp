@@ -95,7 +95,7 @@ export default function About() {
 
     const eva = () => {
         if (document.getElementById("condition-1").checked === true) {
-            evals = "ไม่เข้าเงื่อนไขขอใช้รถ"
+            evals = document.getElementById('condition-1').value + document.getElementById("calther").value
         }
         else if (document.querySelector('input[name="mett"]:checked').value === "ส่งต่อเยี่ยมบ้าน") {
             evals = document.querySelector('input[name="mett"]:checked').value + "โดย" + document.querySelector('input[name="send"]:checked').value
@@ -314,6 +314,17 @@ export default function About() {
             document.getElementById("alther").required = false
             document.getElementById("alther").disabled = true
         }
+        if (document.getElementById('condition-1').checked === true) {
+            document.getElementById("calther").disabled = false
+            document.getElementById("calther").focus()
+            document.getElementById("calther").required = true
+            document.getElementById('condition-1').value = document.getElementById("alther").value
+        }
+        else if (document.getElementById('condition-1').checked === false) {
+            document.getElementById("calther").value = ""
+            document.getElementById("calther").required = false
+            document.getElementById("calther").disabled = true
+        }
         if (document.getElementById("condition7").checked === true)
             document.getElementById("ihid").hidden = false
         else if (document.getElementById("condition7").checked === false)
@@ -336,7 +347,8 @@ export default function About() {
             document.getElementById("condition4").disabled = false
             document.getElementById("condition5").disabled = false
             document.getElementById("condition6").disabled = false
-
+            document.getElementById("calther").disabled = true
+            document.getElementById("calther").required = false
 
         }
         else {
@@ -352,6 +364,9 @@ export default function About() {
             document.getElementById("condition5").disabled = true
             document.getElementById("condition6").disabled = true
             document.getElementById("alther").disabled = true
+            document.getElementById("calther").disabled = false
+            document.getElementById("calther").focus()
+            document.getElementById("calther").required = true
             document.getElementById("rech").hidden = true
             document.getElementById("addre").hidden = true
 
@@ -541,6 +556,8 @@ export default function About() {
                             <label className='ml-2 mr-2'>: โทรศัพท์</label><br />
                             <input type="radio" id="way3" name="way" onChange={e => { setWay(e.target.value) }} value="Easy Chat หมอ กทม." className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                             <label className='ml-2 mr-2'>: Easy Chat หมอ กทม.</label><br />
+                            <input type="radio" id="way4" name="way" onChange={e => { setWay(e.target.value) }} value="Walk in" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                            <label className='ml-2 mr-2'>: Walk in</label><br />    
                         </div>
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
@@ -644,8 +661,11 @@ export default function About() {
                                     <div><input type="checkbox" onClick={e => con("condition6")} id="condition6" name="condition" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                         <label className='ml-2 mr-2'>: อื่น ๆ ระบุ </label>
                                         <input type="text" id='alther' className=" border rounded-md border-black-400 active:border-black disabled:border-black-300" disabled />
-                                    </div><div><input type="checkbox" onClick={e => con()} id="condition-1" name="condition" value="ไม่เข้าเงื่อนไขในการขอรับบริการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label className='ml-2 mr-2'>: ไม่เข้าเงื่อนไขในการขอรับบริการ</label></div>
+                                    </div><div className=''>
+                                        <input type="checkbox" onClick={e => con()} id="condition-1" name="condition" value="ไม่เข้าเงื่อนไขเนื่องจาก " className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                        <label className='ml-2 mr-2'>: ไม่เข้าเงื่อนไขขอรับบริการ เนื่องจาก ระบุ</label>
+                                        <input type="text" id='calther' className="w-full border rounded-md border-black-400 active:border-black disabled:border-black-300" disabled />
+                                    </div>
 
                                 </div>
                             </div>
