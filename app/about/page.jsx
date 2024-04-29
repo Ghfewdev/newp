@@ -26,6 +26,9 @@ export default function About() {
     const [zipcode3, setZipcode3] = useState("");
     const [amphoe3, setAmphoe3] = useState("");
     const [way, setWay] = useState("");
+    const [ded, setDed] = useState(`${Number(new Date().getFullYear())+543}-${String(new Date().getMonth()+1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}T${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`);
+    const [ded2, setDed2] = useState(`${Number(new Date().getFullYear())+543}-${String(new Date().getMonth()+1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}T${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`);
+
 
     var com
     var cond
@@ -288,6 +291,7 @@ export default function About() {
             .then(result => {
                 console.log(result)
                 if (result.status === "ok") {
+                    document.getElementById("submit").disabled = true
                     window.location = "/manage"
                     router.push('/manage', { scroll: false })
 
@@ -301,7 +305,6 @@ export default function About() {
 
 
     const con = (val, val2) => {
-
 
         if (document.getElementById('condition6').checked === true) {
             document.getElementById("alther").disabled = false
@@ -517,11 +520,22 @@ export default function About() {
 
     }
 
-    const distr = () => {
-        //setTimeout(() => {
-        console.log(districts)
-        //}, 100);
+    const distr = (date) => {
+        var ed = date.split("-")
+        var dateconvert = date
+        if(String(date.split("-")[0]) < Number(new Date().getFullYear())+543) {
+            dateconvert = `${Number(ed[0])+543}-${ed[1]}-${ed[2]}`
+        }
+        setDed(dateconvert)
+    }
 
+    const distr2 = (date) => {
+        var ed = date.split("-")
+        var dateconvert = date
+        if(String(date.split("-")[0]) < Number(new Date().getFullYear())+543) {
+            dateconvert = `${Number(ed[0])+543}-${ed[1]}-${ed[2]}`
+        }
+        setDed2(dateconvert)
     }
 
     // var defhos = <option value={localStorage.getItem("id")}>{localStorage.getItem("department")}</option>
@@ -562,8 +576,8 @@ export default function About() {
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วัน/เดือน/ปี ที่จอง</label>
-                            <input type="datetime-local" id="date" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="วว/ดด/ปปปป ชช:นน" required />
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วันที่จองรถ (ดด/วว/ปปปป)</label>
+                            <input type="datetime-local" id="date" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="วว/ดด/ปปปป ชช:นน" value={ded} onChange={e => setDed(e.target.value)} onBlur={e => distr(e.target.value)} required />
                         </div>
                     </div>
 
@@ -760,8 +774,8 @@ export default function About() {
                         <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
 
                             <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วัน/เดือน/ปี ที่ขอใช้รถ</label>
-                                <input type="datetime-local" id="dateres" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-auto p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' />
+                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วันที่ขอใช้รถ (ดด/วว/ปปปป)</label>
+                                <input type="datetime-local" id="dateres" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-auto p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={ded2} onChange={e => setDed2(e.target.value)} onBlur={e => distr2(e.target.value)}  />
                             </div>
 
 

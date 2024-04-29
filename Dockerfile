@@ -23,6 +23,6 @@ COPY --from=builder /cars/out /usr/share/nginx/html
 # add nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 # expose port 80 for nginx
-EXPOSE 80
+EXPOSE 81
 # start nginx
 CMD ["nginx", "-g", "daemon off;"]
