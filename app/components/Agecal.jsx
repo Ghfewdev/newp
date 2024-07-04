@@ -18,14 +18,14 @@ export default function Agecal(props) {
             if (isNaN(age)) {
                 setAge("0")
             } else if (age <= -1) {
-                setAge(age+543)
+                setAge(age + 543)
 
-                if ((age+543) >= 60) {
+                if ((age + 543) >= 60) {
                     document.getElementById(`${props.agg}1`).checked = true
                     document.getElementById(`${props.agg}7`).required = false
                 } else {
                     document.getElementById(`${props.agg}1`).checked = false
-                    
+
                 }
             } else {
                 setAge(age);
@@ -33,15 +33,15 @@ export default function Agecal(props) {
                 if (age >= 60) {
                     document.getElementById(`${props.agg}1`).checked = true
                     document.getElementById(`${props.agg}7`).required = false
-                    
+
                 } else {
                     document.getElementById(`${props.agg}1`).checked = false
-                    
+
                 }
             }
-            
+
             //console.log(document.getElementById(props.agg).value)
-            
+
         }, 100);
 
     };
@@ -51,9 +51,9 @@ export default function Agecal(props) {
             <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วันที่เกิด (ดด/วว/ปปปป)</label>
                 <input type="date" value={dob} onChange={(e) => { setDob(e.target.value) }} id="birt" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-            </div> 
+            </div>
             <div className="text-center">
-                <button type="button" className="bg-[#e9e9d9dd] shadow-md p-2 mt-7 rounded-lg hover:bg-slate-400" onClick={ () => calculateAge() }>คำนวณอายุ</button>
+                <button type="button" className="bg-[#e9e9d9dd] shadow-md p-2 mt-7 rounded-lg hover:bg-slate-400" onClick={() => calculateAge()}>คำนวณอายุ</button>
             </div>
             <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">อายุ(ปี)</label>

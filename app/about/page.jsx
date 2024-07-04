@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Authen from '../components/Authen';
 import Agecal from '../components/Agecal';
 import { useRouter } from 'next/navigation'
+import { ThaiDatePicker } from "thaidatepicker-react";
+
 
 export default function About() {
     Authen();
@@ -26,9 +28,16 @@ export default function About() {
     const [zipcode3, setZipcode3] = useState("");
     const [amphoe3, setAmphoe3] = useState("");
     const [way, setWay] = useState("");
-    const [ded, setDed] = useState(`${Number(new Date().getFullYear())+543}-${String(new Date().getMonth()+1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}T${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`);
-    const [ded2, setDed2] = useState(`${Number(new Date().getFullYear())+543}-${String(new Date().getMonth()+1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}T${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`);
-
+    // const [ded, setDed] = useState(`${Number(new Date().getFullYear()) + 543}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}T${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`);
+    // const [ded2, setDed2] = useState(`${Number(new Date().getFullYear()) + 543}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}T${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`);
+    const [selectedThaiDate, setSelectedThaiDate] = useState();
+    const [selectedThaiDate2, setSelectedThaiDate2] = useState();
+    const [selectedThaiDate3, setSelectedThaiDate3] = useState();
+    const [age, setAge] = useState();
+    const [dob, setDob] = useState('');
+    const [times1, setTimes1] = useState()
+    const [date1, setDate1] = useState()
+    const [date2, setDate2] = useState()
 
     var com
     var cond
@@ -37,6 +46,17 @@ export default function About() {
     var evals
     const d = new Date()
     var t = d.getFullYear() + "/" + Number(d.getMonth() + 1) + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
+
+    // const handleDatePickerChange = (christDate, buddhistDate) => {
+    //     console.log({ christDate, buddhistDate });
+    //     setSelectedThaiDate(buddhistDate);
+    // };
+
+    const Agecal = (val) => {
+        const inputage = String(val).split("-")[0];
+        const ret = Number(d.getFullYear()) - Number(inputage)
+        setAge(ret)
+    }
 
     const fetchdata = () => {
         fetch(process.env.NEXT_PUBLIC_APP_API + "/hospital2")
@@ -186,7 +206,7 @@ export default function About() {
             jsondata = {
                 "hos": document.getElementById("selecthos").value,
                 "way": way,
-                "date": document.getElementById("date").value,
+                "date": date1,
                 "sitizen": document.getElementById("sitizen").value,
                 "preflix": document.getElementById("selectpre").value,
                 "fname": document.getElementById("fname").value,
@@ -200,7 +220,7 @@ export default function About() {
                 "disv1": document.getElementById("selectdis").value,
                 "zip": document.getElementById("zip").value,
                 "call": document.getElementById("call").value,
-                "dateres": document.getElementById("dateres").value,
+                "dateres": date2,
                 "met": document.querySelector('input[name="met"]:checked').value,
                 "start": start,
                 "end": end,
@@ -214,7 +234,7 @@ export default function About() {
             jsondata = {
                 "hos": document.getElementById("selecthos").value,
                 "way": way,
-                "date": document.getElementById("date").value,
+                "date": date1,
                 "sitizen": document.getElementById("sitizen").value,
                 "preflix": document.getElementById("selectpre").value,
                 "fname": document.getElementById("fname").value,
@@ -228,7 +248,7 @@ export default function About() {
                 "disv1": "-",
                 "zip": "-",
                 "call": "-",
-                "dateres": document.getElementById("date").value,
+                "dateres": date1,
                 "met": 0,
                 "start": "-",
                 "end": "-",
@@ -520,25 +540,53 @@ export default function About() {
 
     }
 
-    const distr = (date) => {
-        var ed = date.split("-")
-        var dateconvert = date
-        if(String(date.split("-")[0]) < Number(new Date().getFullYear())+543) {
-            dateconvert = `${Number(ed[0])+543}-${ed[1]}-${ed[2]}`
-        }
-        setDed(dateconvert)
-    }
+    // const distr = (date) => {
+    //     var ed = date.split("-")
+    //     var dateconvert = date
+    //     if (String(date.split("-")[0]) < Number(new Date().getFullYear()) + 543) {
+    //         dateconvert = `${Number(ed[0]) + 543}-${ed[1]}-${ed[2]}`
+    //     }
+    //     setDed(dateconvert)
+    // }
 
-    const distr2 = (date) => {
-        var ed = date.split("-")
-        var dateconvert = date
-        if(String(date.split("-")[0]) < Number(new Date().getFullYear())+543) {
-            dateconvert = `${Number(ed[0])+543}-${ed[1]}-${ed[2]}`
-        }
-        setDed2(dateconvert)
-    }
+    // const distr2 = (date) => {
+    //     var ed = date.split("-")
+    //     var dateconvert = date
+    //     if (String(date.split("-")[0]) < Number(new Date().getFullYear()) + 543) {
+    //         dateconvert = `${Number(ed[0]) + 543}-${ed[1]}-${ed[2]}`
+    //     }
+    //     setDed2(dateconvert)
+    // }
 
     // var defhos = <option value={localStorage.getItem("id")}>{localStorage.getItem("department")}</option>
+
+    const showdate = (val) => {
+        console.log(new Date(selectedThaiDate + "T" + (val)))
+        setDate1(selectedThaiDate + "T" + (val))
+    }
+
+    const showdate2 = (val) => {
+        // console.log(new Date(selectedThaiDate+"T"+String(timess1)))
+        if (document.getElementById("time1").value) {
+            console.log(new Date(val + "T" + String(document.getElementById("time1").value)))
+            setDate1(val + "T" + String(document.getElementById("time1").value))
+        }
+
+    }
+
+    const showres1 = (val) => {
+        console.log(new Date(selectedThaiDate2 + "T" + (val)))
+        setDate2(selectedThaiDate2 + "T" + (val))
+    }
+
+    const showres2 = (val) => {
+        // console.log(new Date(selectedThaiDate+"T"+String(timess1)))
+        if (document.getElementById("time2").value) {
+            console.log(new Date(val + "T" + String(document.getElementById("time2").value)))
+            setDate2(val + "T" + String(document.getElementById("time2").value))
+        }
+
+    }
 
     useEffect(() => {
         fetchdata();
@@ -564,21 +612,39 @@ export default function About() {
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ช่องทางเข้ารับบริการ</label>
-                            <input type="radio" id="way1" name="way" onChange={e => { setWay(e.target.value) }} value="LINE add" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                            <input type="radio" id="way1" name="way" onChange={e => { setWay(e.target.value) }} required value="LINE add" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                             <label className='ml-2 mr-2'>: LINE add</label><br />
                             <input type="radio" id="way2" name="way" onChange={e => { setWay(e.target.value) }} value="โทรศัพท์" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                             <label className='ml-2 mr-2'>: โทรศัพท์</label><br />
                             <input type="radio" id="way3" name="way" onChange={e => { setWay(e.target.value) }} value="Easy Chat หมอ กทม." className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                             <label className='ml-2 mr-2'>: Easy Chat หมอ กทม.</label><br />
                             <input type="radio" id="way4" name="way" onChange={e => { setWay(e.target.value) }} value="Walk in" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                            <label className='ml-2 mr-2'>: Walk in</label><br />    
+                            <label className='ml-2 mr-2'>: Walk in</label><br />
                         </div>
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วันที่จองรถ (ดด/วว/ปปปป)</label>
-                            <input type="datetime-local" id="date" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="วว/ดด/ปปปป ชช:นน" value={ded} onChange={e => setDed(e.target.value)} onBlur={e => distr(e.target.value)} required />
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วันที่จองรถ</label>
+                            <ThaiDatePicker
+                                value={selectedThaiDate}
+                                onChange={(christDate) => { setSelectedThaiDate(christDate), showdate2(christDate) }}
+                                customInput={"input"}
+                                inputProps={{
+                                    displayFormat: "D MMMM YYYY",
+                                    className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                    required: true,
+                                    id: "date1",
+                                    autoComplete: "off"
+                                }}
+
+                            />
+                            <label className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">เวลาจองรถ</label>
+                            <input onChange={e => showdate(e.target.value)} defaultValue={"01:00"} type="time" id="time1" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-auto p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required />
+
+                            {/* <button type='button' onClick={() => console.log(selectedThaiDate) }>asd</button> */}
+                            {/* <input type="datetime-local" id="date" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="วว/ดด/ปปปป ชช:นน" value={ded} onChange={e => setDed(e.target.value)} onBlur={e => distr(e.target.value)} required /> */}
                         </div>
+
                     </div>
 
                     <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
@@ -610,8 +676,31 @@ export default function About() {
                         </div>
 
                     </div>
-                    <div className="grid gap-6 mb-6 md:grid-cols-6 pl-6 pr-6">
-                        <Agecal agg="condition" />
+                    <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6">
+                        {/* <Agecal agg="condition" /> */}
+
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วัน เดือน ปี เกิด</label>
+                            <ThaiDatePicker
+                                value={dob}
+                                onChange={(christDate) => setDob(christDate)}
+                                customInput={"input"}
+                                inputProps={{
+                                    displayFormat: "D MMMM YYYY",
+                                    className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                    required: true,
+                                    autoComplete: "off"
+                                }}
+                            />
+                        </div>
+                        <div className="text-center">
+                            {/* <button type="button" className="bg-[#e9e9d9dd] shadow-md p-2 mt-7 rounded-lg hover:bg-slate-400" onClick={() => calculateAge()}>คำนวณอายุ</button> */}
+                            <button type="button" className="bg-[#e9e9d9dd] shadow-md p-2 mt-7 rounded-lg hover:bg-slate-400" onClick={() => Agecal(dob)}>คำนวณอายุ</button>
+                        </div>
+                        <div>
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">อายุ(ปี)</label>
+                            <input type="text" value={age} id="age" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={3} placeholder="" required readOnly />
+                        </div>
 
                     </div>
 
@@ -774,8 +863,22 @@ export default function About() {
                         <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
 
                             <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วันที่ขอใช้รถ (ดด/วว/ปปปป)</label>
-                                <input type="datetime-local" id="dateres" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-auto p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' value={ded2} onChange={e => setDed2(e.target.value)} onBlur={e => distr2(e.target.value)}  />
+                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">วันที่ขอใช้รถ</label>
+                                <ThaiDatePicker
+                                    value={selectedThaiDate2}
+                                    onChange={(christDate) => { setSelectedThaiDate2(christDate), showres2(christDate) }}
+                                    customInput={"input"}
+                                    inputProps={{
+                                        displayFormat: "D MMMM YYYY",
+                                        className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                        required: true,
+                                        id: "dateres1",
+                                        autoComplete: "off"
+                                    }}
+
+                                />
+                                <label className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">เวลาขอใช้รถ</label>
+                                <input type="time" onChange={e => showres1(e.target.value)} defaultValue={"01:00"} id="time2" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-auto p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' />
                             </div>
 
 

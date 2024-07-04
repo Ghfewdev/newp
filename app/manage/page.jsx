@@ -4,6 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Authen from '../components/Authen';
 import { useRouter } from 'next/navigation'
+import { ThaiDatePicker } from "thaidatepicker-react";
 
 
 export default function Manage() {
@@ -35,6 +36,7 @@ export default function Manage() {
     const [statusc, setStatusc] = useState("");
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
+    const [selectedThaiDate, setSelectedThaiDate] = useState();
 
     const d = new Date()
     var t = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
@@ -56,7 +58,7 @@ export default function Manage() {
             selector: row => row.date,
             sortable: true,
             hide: 'sm',
-            "col": "dateres",
+            "col": "date",
         },
         {
             name: 'โรงพยาบาล',
@@ -247,7 +249,7 @@ export default function Manage() {
 
         }
 
-        
+
         const response = await axios.get(url);
 
         setFurl(ex)
@@ -495,7 +497,7 @@ export default function Manage() {
             document.getElementById("dst").value = ""
             document.getElementById("den").value = ""
             document.getElementById("selecthos").value = 14
-            
+
             fetchData2();
         } else {
             setSearch("");
@@ -544,7 +546,7 @@ export default function Manage() {
                 .then(result => {
                     setForm(result);
                 });
-            
+
         } else {
             setAdmin(false);
             fetchData(1);
@@ -607,9 +609,9 @@ export default function Manage() {
                                             </select>
                                         </div>
 
-                                        
+
                                         <div>
-                                            <label>&nbsp; </label><button type="button" onClick={e => {qry(14)}} className="bg-[#7BC634] border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">คืนค่าเริ่มต้น</button>
+                                            <label>&nbsp; </label><button type="button" onClick={e => { qry(14) }} className="bg-[#7BC634] border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">คืนค่าเริ่มต้น</button>
                                         </div>
 
                                     </div>
@@ -620,18 +622,46 @@ export default function Manage() {
                                     <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
 
                                         <div>
-                                            <label>วันที่จองหลัง: </label><input id='dst' type="date" defaultValue={start} onChange={startChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                            <label>วันที่จองหลัง: </label>
+                                            {/* <input id='dst' type="date" defaultValue={start} onChange={startChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /> */}
+                                            <ThaiDatePicker
+                                                value={start}
+                                                onChange={(christDate) => { setStart(christDate) }}
+                                                customInput={"input"}
+                                                inputProps={{
+                                                    displayFormat: "D MMMM YYYY",
+                                                    className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                                    required: true,
+                                                    id: "start",
+                                                    autoComplete: "off"
+                                                }}
+
+                                            />
                                         </div>
                                         <div>
-                                            <label>วันที่จองก่อน: </label><input id='den' type="date" defaultValue={end} onChange={endChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                            <label>วันที่จองก่อน: </label>
+                                            {/* <input id='den' type="date" defaultValue={end} onChange={endChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /> */}
+                                            <ThaiDatePicker
+                                                value={end}
+                                                onChange={(christDate) => { setEnd(christDate) }}
+                                                customInput={"input"}
+                                                inputProps={{
+                                                    displayFormat: "D MMMM YYYY",
+                                                    className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                                    required: true,
+                                                    id: "end",
+                                                    autoComplete: "off"
+                                                }}
+
+                                            />
                                         </div>
                                         <div>
                                             <label>&nbsp; </label><button type='submit' className="bg-blue-500 border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">ค้นหา</button>
                                         </div>
-                                        
+
                                         <div>
-                                        <br />
-                                        <button type='button' onClick={e => excel()} className='bg-[#006A33] text-white p-2 rounded-lg mr-5'>EXCEL</button>
+                                            <br />
+                                            <button type='button' onClick={e => excel()} className='bg-[#006A33] text-white p-2 rounded-lg mr-5'>EXCEL</button>
                                         </div>
 
                                     </div>
@@ -640,55 +670,83 @@ export default function Manage() {
                         </>
                     ) : <>
 
-                    <div className="m-6 border border-black rounded-3xl ">
-                        <form onSubmit={onSearch2}>
-                            <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+                        <div className="m-6 border border-black rounded-3xl ">
+                            <form onSubmit={onSearch2}>
+                                <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
 
-                                <div>
-                                    <label>ค้นหา: </label><input id='seid' type="text" defaultValue={search} onChange={searchChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                    <div>
+                                        <label>ค้นหา: </label><input id='seid' type="text" defaultValue={search} onChange={searchChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                    </div>
+
+                                    <div>
+                                        <label>สถานะดำเนินการ: </label>
+                                        <select name="strt" id="strt" defaultValue={statusc} onChange={statuscChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            <option value="">สถานะทั้งหมด</option>
+                                            <option value="null">รอดำเนินการ</option>
+                                            <option value="1">สำเร็จ</option>
+                                            <option value="0">ยกเลิก</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label>&nbsp; </label><button type="button" onClick={e => { qry() }} className="bg-[#7BC634] border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">คืนค่าเริ่มต้น</button>
+                                    </div>
+
                                 </div>
-                                
-                                <div>
-                                    <label>สถานะดำเนินการ: </label>
-                                    <select name="strt" id="strt" defaultValue={statusc} onChange={statuscChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option value="">สถานะทั้งหมด</option>
-                                        <option value="null">รอดำเนินการ</option>
-                                        <option value="1">สำเร็จ</option>
-                                        <option value="0">ยกเลิก</option>
-                                    </select>
-                                </div>
-                                
-                                <div>
-                                    <label>&nbsp; </label><button type="button" onClick={e => {qry()}} className="bg-[#7BC634] border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">คืนค่าเริ่มต้น</button>
-                                </div>
 
-                            </div>
-
-                            <hr className="h-px mx-auto my-8 bg-black border-0 dark:bg-gray-700 w-[90%] mb-6" />
+                                <hr className="h-px mx-auto my-8 bg-black border-0 dark:bg-gray-700 w-[90%] mb-6" />
 
 
-                            <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
+                                <div className="grid gap-6 mb-6 md:grid-cols-4 pl-6 pr-6 mt-6">
 
-                                <div>
-                                    <label>วันที่จองหลัง: </label><input id='dst' type="date" defaultValue={start} onChange={startChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                                </div>
-                                <div>
-                                    <label>วันที่จองก่อน: </label><input id='den' type="date" defaultValue={end} onChange={endChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                                </div>
-                                <div>
-                                    <label>&nbsp; </label><button type='submit' className="bg-blue-500 border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">ค้นหา</button>
-                                </div>
-                               
+                                    <div>
+                                        <label>วันที่จองหลัง: </label>
+                                        {/* <input id='dst' type="date" defaultValue={start} onChange={startChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /> */}
+                                        <ThaiDatePicker
+                                                value={start}
+                                                onChange={(christDate) => { setStart(christDate) }}
+                                                customInput={"input"}
+                                                inputProps={{
+                                                    displayFormat: "D MMMM YYYY",
+                                                    className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                                    required: true,
+                                                    id: "dst",
+                                                    autoComplete: "off"
+                                                }}
 
-                                <div>
+                                            />
+                                    </div>
+                                    <div>
+                                        <label>วันที่จองก่อน: </label>
+                                        {/* <input id='den' type="date" defaultValue={end} onChange={endChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /> */}
+                                        <ThaiDatePicker
+                                                value={end}
+                                                onChange={(christDate) => { setEnd(christDate) }}
+                                                customInput={"input"}
+                                                inputProps={{
+                                                    displayFormat: "D MMMM YYYY",
+                                                    className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                                    required: true,
+                                                    id: "den",
+                                                    autoComplete: "off"
+                                                }}
+
+                                            />
+                                    </div>
+                                    <div>
+                                        <label>&nbsp; </label><button type='submit' className="bg-blue-500 border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">ค้นหา</button>
+                                    </div>
+
+
+                                    <div>
                                         <br />
                                         <button type='button' onClick={e => excel()} className='bg-[#006A33] text-white p-2 rounded-lg mr-5'>EXCEL</button>
-                                        </div>
+                                    </div>
 
-                            </div>
-                        </form>
-                    </div>
-                </>}
+                                </div>
+                            </form>
+                        </div>
+                    </>}
 
 
 
@@ -903,10 +961,10 @@ export default function Manage() {
                                         </div>
 
                                         {select.map(f => {
-                                            var date = String(f.date).split("T")[0]
-                                            var time = (String(f.date).split("T")[1]).split(".")[0]
-                                            var dateres = String(f.dateres).split("T")[0]
-                                            var timeres = (String(f.dateres).split("T")[1]).split(".")[0]
+                                            // var date = String(f.date).split("T")[0]
+                                            // var time = (String(f.date).split("T")[1]).split(".")[0]
+                                            // var dateres = String(f.dateres).split("T")[0]
+                                            // var timeres = (String(f.dateres).split("T")[1]).split(".")[0]
                                             var co = (String(f.condition).replaceAll("-", " "))
                                             var co1 = String(co.split(", ")).replaceAll(", ", "")
 
@@ -930,7 +988,7 @@ export default function Manage() {
 
                                                 <div key={f.fm_id} className="grid gap-6 md:grid-cols-2 pl-6 pr-6">
                                                     โรงพยาบาลที่ให้บริการ: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.hos_name} />
-                                                    วัน/เดือน/ปี ที่จอง: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={"วันที่ " + date + " เวลา " + time} />
+                                                    วัน/เดือน/ปี ที่จอง: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.date} />
                                                     เลขบัตรประชาชน: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.citizen} />
                                                     คำนำหน้า: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.pre_name} />
                                                     ชื่อ: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.fname} />
@@ -943,7 +1001,7 @@ export default function Manage() {
                                                     จังหวัด: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.province} />
                                                     รหัสไปรษณีย์: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.zipcode} />
                                                     เบอร์โทรศัพท์: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.call} />
-                                                    วัน/เดือน/ปี ที่ขอใช้รถ: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={"วันที่ " + dateres + " เวลา " + timeres} />
+                                                    วัน/เดือน/ปี ที่ขอใช้รถ: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.dateres} />
                                                     สถานที่รับ-ส่ง: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={f.met_name} />
                                                     สถานที่ต้นทาง: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={String(f.start)} />
                                                     สถานที่ปลายทาง: <input type="text" className='pl-2 pr-2 border-b-2 border-black' readOnly value={String(f.end)} />
@@ -1187,9 +1245,9 @@ export default function Manage() {
 
                                                 <div key={f.fm_id} className="grid gap-6 md:grid-cols-2 pl-6 pr-6">
                                                     {/* โรงพยาบาลที่ให้บริการ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.hos_name} /> */}
-                                                    วัน/เดือน/ปี ที่จอง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black read-only:text-red-700 ' readOnly value={"วันที่ " + date + " เวลา " + time} />
+                                                    วัน/เดือน/ปี ที่จอง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black read-only:text-red-700 ' readOnly value={f.date} />
                                                     แก้ไขวันที่จอง: <input id="1" type="datetime-local" className='pl-2 pr-2 rounded-lg border border-black' />
-                                                    วัน/เดือน/ปี ที่ขอใช้รถ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black read-only:text-red-700' readOnly value={"วันที่ " + dateres + " เวลา " + timeres} />
+                                                    วัน/เดือน/ปี ที่ขอใช้รถ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black read-only:text-red-700' readOnly value={f.dateres} />
                                                     แก้ไขวันที่ขอใช้รถ: <input id="2" type="datetime-local" className='pl-2 pr-2 rounded-lg border border-black' />
                                                     เลขบัตรประชาชน: <input id="3" type="text" className='pl-2 pr-2 rounded-lg border border-black' defaultValue={f.citizen} />
                                                     {/* คำนำหน้า: <input id="4" type="text" className='pl-2 pr-2 rounded-lg border border-black' defaultValue={f.pre_name} /> */}
@@ -1245,14 +1303,14 @@ export default function Manage() {
                     <div className='mt-[-100px] print:block hidden text-[16pt] font-TH pt-6 pl-12 pr-12'>
 
                         {select.map(f => {
-                            // var date = String(f.date).split("T")[0]
-                            var date = formatDate(f.date)
-                            var time2 = (String(f.date).split("T")[1]).split(".")[0]
-                            var time = time2.split(":")[0] + ":" + time2.split(":")[1]
-                            // var dateres = String(f.dateres).split("T")[0]
-                            var dateres = formatDate(f.dateres)
-                            var timeres2 = (String(f.dateres).split("T")[1]).split(".")[0]
-                            var timeres = timeres2.split(":")[0] + ":" + timeres2.split(":")[1]
+                            // // var date = String(f.date).split("T")[0]
+                            // var date = formatDate(f.date)
+                            // var time2 = (String(f.date).split("T")[1]).split(".")[0]
+                            // var time = time2.split(":")[0] + ":" + time2.split(":")[1]
+                            // // var dateres = String(f.dateres).split("T")[0]
+                            // var dateres = formatDate(f.dateres)
+                            // var timeres2 = (String(f.dateres).split("T")[1]).split(".")[0]
+                            // var timeres = timeres2.split(":")[0] + ":" + timeres2.split(":")[1]
 
 
                             return (
@@ -1263,7 +1321,7 @@ export default function Manage() {
                                         <label className="font-bold">{f.hos_name}</label>
                                     </div>
                                     <br />
-                                    <label className="font-bold">วัน/เดือน/ปี ที่จอง:</label> <label className='pl-2 pr-2 '>วันที {date} เวลา {time} น.</label><br />
+                                    <label className="font-bold">วัน/เดือน/ปี ที่จอง:</label> <label className='pl-2 pr-2 '>{f.date}</label><br />
                                     {/* <label className="font-bold">เลขบัตรประชาชน:</label> <label className='pl-2 pr-2 '>{f.citizen}</label> */}
                                     {/* คำนำหน้า: <label className='pl-2 pr-2 '>{f.pre_name}</label> */}
                                     <label className="font-bold">ชื่อ:</label> <label className='pl-2 pr-2 '>{f.pre_name}{f.fname} {f.lname}</label>
@@ -1276,7 +1334,7 @@ export default function Manage() {
                                     <label className="font-bold">จังหวัด:</label> <label className='pl-2 pr-2 '>{f.province}</label>
                                     <label className="font-bold">รหัสไปรษณีย์:</label> <label className='pl-2 pr-2 '>{f.zipcode}</label>
                                     <label className="font-bold">เบอร์โทรศัพท์:</label> <label className='pl-2 pr-2 '>{f.call}</label><br />
-                                    <label className="font-bold">วัน/เดือน/ปี ที่ขอใช้รถ:</label> <label className='pl-2 pr-2 '>วันที {dateres} เวลา {timeres} น.</label><br />
+                                    <label className="font-bold">วัน/เดือน/ปี ที่ขอใช้รถ:</label> <label className='pl-2 pr-2 '>{f.dateres}</label><br />
                                     <label className="font-bold">สถานที่รับ-ส่ง:</label> <label className='pl-2 pr-2 '>{f.met_name}</label><br />
                                     <label className="font-bold">สถานที่ต้นทาง:</label> <label className='pl-2 pr-2 '>{f.start}</label><br />
                                     <label className="font-bold">สถานที่ปลายทาง:</label> <label className='pl-2 pr-2 '>{f.end}</label><br />

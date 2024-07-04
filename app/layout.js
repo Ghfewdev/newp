@@ -10,13 +10,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      
       <body className="bg-[#f0fdf0] font-mono">
         <Navbar />
         <div className="mt-[100px]">
-        {children}
+          {children}
         </div>
         <Footer />
-        </body>
+      </body>
+
     </html>
   );
 }
