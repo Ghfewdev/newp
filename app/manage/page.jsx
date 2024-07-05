@@ -494,8 +494,8 @@ export default function Manage() {
             setEnd("");
             document.getElementById("strt").value = ""
             document.getElementById("seid").value = ""
-            document.getElementById("dst").value = ""
-            document.getElementById("den").value = ""
+            // document.getElementById("dst").value = ""
+            // document.getElementById("den").value = ""
             document.getElementById("selecthos").value = 14
 
             fetchData2();
@@ -507,8 +507,8 @@ export default function Manage() {
             setEnd("");
             document.getElementById("strt").value = ""
             document.getElementById("seid").value = ""
-            document.getElementById("dst").value = ""
-            document.getElementById("den").value = ""
+            // document.getElementById("dst").value = ""
+            // document.getElementById("den").value = ""
             fetchData2(1);
         }
     }
@@ -631,7 +631,7 @@ export default function Manage() {
                                                 inputProps={{
                                                     displayFormat: "D MMMM YYYY",
                                                     className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
-                                                    required: true,
+                                                    // required: true,
                                                     id: "start",
                                                     autoComplete: "off"
                                                 }}
@@ -648,7 +648,7 @@ export default function Manage() {
                                                 inputProps={{
                                                     displayFormat: "D MMMM YYYY",
                                                     className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
-                                                    required: true,
+                                                    // required: true,
                                                     id: "end",
                                                     autoComplete: "off"
                                                 }}
@@ -709,7 +709,7 @@ export default function Manage() {
                                                 inputProps={{
                                                     displayFormat: "D MMMM YYYY",
                                                     className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
-                                                    required: true,
+                                                    // required: true,
                                                     id: "dst",
                                                     autoComplete: "off"
                                                 }}
@@ -726,7 +726,7 @@ export default function Manage() {
                                                 inputProps={{
                                                     displayFormat: "D MMMM YYYY",
                                                     className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
-                                                    required: true,
+                                                    // required: true,
                                                     id: "den",
                                                     autoComplete: "off"
                                                 }}
