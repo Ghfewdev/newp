@@ -37,10 +37,39 @@ export default function Manage() {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
     const [selectedThaiDate, setSelectedThaiDate] = useState();
+    const [selectedThaiDate2, setSelectedThaiDate2] = useState();
+    const [date1, setDate1] = useState()
+    const [date2, setDate2] = useState()
 
     const d = new Date()
     var t = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 
+    const showdate = (val) => {
+        console.log(new Date(selectedThaiDate + "T" + (val)))
+        setDate1(selectedThaiDate + "T" + (val))
+    }
+
+    const showdate2 = (val) => {
+        // console.log(new Date(selectedThaiDate+"T"+String(timess1)))
+        if (document.getElementById("time1").value) {
+            console.log(new Date(val + "T" + String(document.getElementById("time1").value)))
+            setDate1(val + "T" + String(document.getElementById("time1").value))
+        }
+    }
+
+    const showres1 = (val) => {
+        console.log(new Date(selectedThaiDate2 + "T" + (val)))
+        setDate2(selectedThaiDate2 + "T" + (val))
+    }
+
+    const showres2 = (val) => {
+        // console.log(new Date(selectedThaiDate+"T"+String(timess1)))
+        if (document.getElementById("time2").value) {
+            console.log(new Date(val + "T" + String(document.getElementById("time2").value)))
+            setDate2(val + "T" + String(document.getElementById("time2").value))
+        }
+
+    }
 
     const columns = [
         {
@@ -323,8 +352,8 @@ export default function Manage() {
 
     const edit = (fm) => {
         const jsonedit = {
-            "date": document.getElementById("1").value,
-            "dateres": document.getElementById("2").value,
+            "date": date1,
+            "dateres": date2,
             "sitizen": document.getElementById("3").value,
             "fname": document.getElementById("4").value,
             "lname": document.getElementById("5").value,
@@ -703,35 +732,35 @@ export default function Manage() {
                                         <label>วันที่จองหลัง: </label>
                                         {/* <input id='dst' type="date" defaultValue={start} onChange={startChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /> */}
                                         <ThaiDatePicker
-                                                value={start}
-                                                onChange={(christDate) => { setStart(christDate) }}
-                                                customInput={"input"}
-                                                inputProps={{
-                                                    displayFormat: "D MMMM YYYY",
-                                                    className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
-                                                    // required: true,
-                                                    id: "dst",
-                                                    autoComplete: "off"
-                                                }}
+                                            value={start}
+                                            onChange={(christDate) => { setStart(christDate) }}
+                                            customInput={"input"}
+                                            inputProps={{
+                                                displayFormat: "D MMMM YYYY",
+                                                className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                                // required: true,
+                                                id: "dst",
+                                                autoComplete: "off"
+                                            }}
 
-                                            />
+                                        />
                                     </div>
                                     <div>
                                         <label>วันที่จองก่อน: </label>
                                         {/* <input id='den' type="date" defaultValue={end} onChange={endChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /> */}
                                         <ThaiDatePicker
-                                                value={end}
-                                                onChange={(christDate) => { setEnd(christDate) }}
-                                                customInput={"input"}
-                                                inputProps={{
-                                                    displayFormat: "D MMMM YYYY",
-                                                    className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
-                                                    // required: true,
-                                                    id: "den",
-                                                    autoComplete: "off"
-                                                }}
+                                            value={end}
+                                            onChange={(christDate) => { setEnd(christDate) }}
+                                            customInput={"input"}
+                                            inputProps={{
+                                                displayFormat: "D MMMM YYYY",
+                                                className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                                // required: true,
+                                                id: "den",
+                                                autoComplete: "off"
+                                            }}
 
-                                            />
+                                        />
                                     </div>
                                     <div>
                                         <label>&nbsp; </label><button type='submit' className="bg-blue-500 border text-white border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">ค้นหา</button>
@@ -1223,10 +1252,10 @@ export default function Manage() {
                                     <div className="relative p-6 flex-auto">
 
                                         {select.map(f => {
-                                            var date = String(f.date).split("T")[0]
-                                            var time = (String(f.date).split("T")[1]).split(".")[0]
-                                            var dateres = String(f.dateres).split("T")[0]
-                                            var timeres = (String(f.dateres).split("T")[1]).split(".")[0]
+                                            // var date = String(f.date).split("T")[0]
+                                            // var time = (String(f.date).split("T")[1]).split(".")[0]
+                                            // var dateres = String(f.dateres).split("T")[0]
+                                            // var timeres = (String(f.dateres).split("T")[1]).split(".")[0]
                                             var co = (String(f.condition).replaceAll("-", " "))
                                             var co1 = String(co.split(", ")).replaceAll(", ", "")
 
@@ -1246,9 +1275,41 @@ export default function Manage() {
                                                 <div key={f.fm_id} className="grid gap-6 md:grid-cols-2 pl-6 pr-6">
                                                     {/* โรงพยาบาลที่ให้บริการ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black' readOnly value={f.hos_name} /> */}
                                                     วัน/เดือน/ปี ที่จอง: <input type="text" className='pl-2 pr-2 rounded-lg border border-black read-only:text-red-700 ' readOnly value={f.date} />
-                                                    แก้ไขวันที่จอง: <input id="1" type="datetime-local" className='pl-2 pr-2 rounded-lg border border-black' />
+                                                    {/* แก้ไขวันที่จอง: <input id="1" type="datetime-local" className='pl-2 pr-2 rounded-lg border border-black' /> */}
+                                                    แก้ไขวันที่จอง: <div><ThaiDatePicker
+                                                        value={selectedThaiDate}
+                                                        onChange={(christDate) => { setSelectedThaiDate(christDate), showdate2(christDate) }}
+                                                        customInput={"input"}
+                                                        inputProps={{
+                                                            displayFormat: "D MMMM YYYY",
+                                                            className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                                            required: true,
+                                                            id: "date1",
+                                                            autoComplete: "off"
+                                                        }}
+
+                                                    />
+                                                        <label className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">เวลาจองรถ</label>
+                                                        <input onChange={e => showdate(e.target.value)} defaultValue={"01:00"} type="time" id="time1" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-auto p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' required />
+                                                    </div>
                                                     วัน/เดือน/ปี ที่ขอใช้รถ: <input type="text" className='pl-2 pr-2 rounded-lg border border-black read-only:text-red-700' readOnly value={f.dateres} />
-                                                    แก้ไขวันที่ขอใช้รถ: <input id="2" type="datetime-local" className='pl-2 pr-2 rounded-lg border border-black' />
+                                                    {/* แก้ไขวันที่ขอใช้รถ: <input id="2" type="datetime-local" className='pl-2 pr-2 rounded-lg border border-black' /> */}
+                                                    แก้ไขวันที่ขอใช้รถ: <div><ThaiDatePicker
+                                                        value={selectedThaiDate2}
+                                                        onChange={(christDate) => { setSelectedThaiDate2(christDate), showres2(christDate) }}
+                                                        customInput={"input"}
+                                                        inputProps={{
+                                                            displayFormat: "D MMMM YYYY",
+                                                            className: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+                                                            required: true,
+                                                            id: "dateres1",
+                                                            autoComplete: "off"
+                                                        }}
+
+                                                    />
+                                                        <label className="block mt-2 mb-2 text-sm font-medium text-gray-900 dark:text-white">เวลาขอใช้รถ</label>
+                                                        <input type="time" onChange={e => showres1(e.target.value)} defaultValue={"01:00"} id="time2" className='rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 block w-auto p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' />
+                                                    </div>
                                                     เลขบัตรประชาชน: <input id="3" type="text" className='pl-2 pr-2 rounded-lg border border-black' defaultValue={f.citizen} />
                                                     {/* คำนำหน้า: <input id="4" type="text" className='pl-2 pr-2 rounded-lg border border-black' defaultValue={f.pre_name} /> */}
                                                     ชื่อ: <input id="4" type="text" className='pl-2 pr-2 rounded-lg border border-black' defaultValue={f.fname} />
