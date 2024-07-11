@@ -55,6 +55,13 @@ export default function About() {
     const Agecal = (val) => {
         const inputage = String(val).split("-")[0];
         const ret = Number(d.getFullYear()) - Number(inputage)
+        if(Number(ret) >= 60) {
+            document.getElementById("condition1").checked = true
+            document.getElementById("condition7").required = false
+        } else {
+            document.getElementById("condition1").checked = false
+            document.getElementById("condition7").required = true
+        }
         setAge(ret)
     }
 
@@ -646,6 +653,7 @@ export default function About() {
                         </div>
 
                     </div>
+
 
                     <hr className="h-px mx-auto my-8 bg-gray-200 border-0 dark:bg-gray-700 w-[80%] mb-6" />
                     <div className='ml-6 mr-6 mb-6'><b><u>ข้อมูลผู้รับบริการ</u></b></div>
