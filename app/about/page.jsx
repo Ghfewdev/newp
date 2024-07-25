@@ -38,6 +38,7 @@ export default function About() {
     const [times1, setTimes1] = useState()
     const [date1, setDate1] = useState()
     const [date2, setDate2] = useState()
+    const [citice, setCitice] = useState("")
 
     var com
     var cond
@@ -55,7 +56,7 @@ export default function About() {
     const Agecal = (val) => {
         const inputage = String(val).split("-")[0];
         const ret = Number(d.getFullYear()) - Number(inputage)
-        if(Number(ret) >= 60) {
+        if (Number(ret) >= 60) {
             document.getElementById("condition1").checked = true
             document.getElementById("condition7").required = false
         } else {
@@ -119,8 +120,11 @@ export default function About() {
         setHosname(localStorage.getItem("department"))
     }
 
-    const waym = () => {
-        console.log(way)
+    const waym = (val) => {
+        if (isNaN(Number(val))) {
+            alert("ต้องใส้ข้อมูลเป็นตัวเลข")
+            setCitice("")
+        }
     }
 
     const eva = () => {
@@ -333,6 +337,10 @@ export default function About() {
 
     const con = (val, val2) => {
 
+        if (document.querySelector('input[name="mett"]:checked').value === "เข้าเงื่อนไขการขอใช้รถ") {
+            document.getElementById("addre").hidden = false
+        }
+
         if (document.getElementById('condition6').checked === true) {
             document.getElementById("alther").disabled = false
             document.getElementById("alther").focus()
@@ -344,17 +352,8 @@ export default function About() {
             document.getElementById("alther").required = false
             document.getElementById("alther").disabled = true
         }
-        if (document.getElementById('condition-1').checked === true) {
-            document.getElementById("calther").disabled = false
-            document.getElementById("calther").focus()
-            document.getElementById("calther").required = true
-            document.getElementById('condition-1').value = document.getElementById("alther").value
-        }
-        else if (document.getElementById('condition-1').checked === false) {
-            document.getElementById("calther").value = ""
-            document.getElementById("calther").required = false
-            document.getElementById("calther").disabled = true
-        }
+
+        
         if (document.getElementById("condition7").checked === true)
             document.getElementById("ihid").hidden = false
         else if (document.getElementById("condition7").checked === false)
@@ -369,7 +368,7 @@ export default function About() {
                 document.getElementById("rech").hidden = false
 
             }
-        }
+        } 
 
         if (document.getElementById("condition-1").checked === false) {
             document.getElementById("condition2").disabled = false
@@ -403,9 +402,25 @@ export default function About() {
 
         }
 
-        if (document.querySelector('input[name="mett"]:checked').value === "เข้าเงื่อนไขการขอใช้รถ") {
-            document.getElementById("addre").hidden = false
+        if (document.getElementById('condition-1').checked === true) {
+            document.getElementById("calther").disabled = false
+            document.getElementById("calther").focus()
+            document.getElementById("calther").required = true
+            document.getElementById('condition-1').value = document.getElementById("alther").value
+            
         }
+        else if (document.getElementById('condition-1').checked === false) {
+            document.getElementById("calther").value = ""
+            document.getElementById("calther").required = false
+            document.getElementById("calther").disabled = true
+            
+        }
+        if(val === false) {
+            document.getElementById("rech").hidden = true
+            document.getElementById("addre").hidden = true
+        }
+       
+        
     }
 
     const redio = (val, val2, val3) => {
@@ -661,7 +676,8 @@ export default function About() {
                     <div className="grid gap-6 mb-6 md:grid-cols-3 pl-6 pr-6 mt-6">
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">เลขบัตรประชาชน</label>
-                            <input type="number" id="sitizen" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxLength={13} required />
+                            <input type="text" id="sitizen" value={citice} onChange={e => { setCitice(e.target.value), waym(e.target.value) }} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" minLength={13} maxLength={13} required />
+
                         </div>
                     </div>
 
@@ -773,7 +789,7 @@ export default function About() {
                                         <label className='ml-2 mr-2'>: อื่น ๆ ระบุ </label>
                                         <input type="text" id='alther' className=" border rounded-md border-black-400 active:border-black disabled:border-black-300" disabled />
                                     </div><div className=''>
-                                        <input type="checkbox" onClick={e => con()} id="condition-1" name="condition" value="ไม่เข้าเงื่อนไขเนื่องจาก " className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                        <input type="checkbox" onClick={e => con(e.target.checked)} id="condition-1" name="condition" value="ไม่เข้าเงื่อนไขเนื่องจาก " className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                         <label className='ml-2 mr-2'>: ไม่เข้าเงื่อนไขขอรับบริการ เนื่องจาก ระบุ</label>
                                         <input type="text" id='calther' className="w-full border rounded-md border-black-400 active:border-black disabled:border-black-300" disabled />
                                     </div>
