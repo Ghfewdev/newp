@@ -480,7 +480,7 @@ export default function Manage() {
         }, 10);
     }
 
-    const submitcar = (fm) => {
+    const submitcar = async (fm) => {
 
         const jsondata = {
             "us_id": localStorage.getItem("id"),
@@ -493,7 +493,7 @@ export default function Manage() {
             "des": ""
         }
 
-        fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
+        await fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
