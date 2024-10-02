@@ -96,19 +96,19 @@ export default function About() {
     const conc = () => {
         var pac = 0;
         if (document.getElementById("condition7").checked === true) {
-            for (var i = 8; i <= 14; i++) {
+            for (var i = 8; i <= 15; i++) {
                 document.getElementById(`condition${i}`).required = true
                 if (document.getElementById(`condition${i}`).checked === true) {
                     pac = 1
                 }
             }
         } else {
-            for (var i = 8; i <= 14; i++) {
+            for (var i = 8; i <= 15; i++) {
                 document.getElementById(`condition${i}`).required = false
             }
         }
         if (pac === 1) {
-            for (var i = 8; i <= 14; i++) {
+            for (var i = 8; i <= 15; i++) {
                 document.getElementById(`condition${i}`).required = false
             }
         }
@@ -179,17 +179,17 @@ export default function About() {
         else
             end = document.getElementById("eselecthos").value
 
-        for (var i = 1; i <= 14; i++) {
+        for (var i = 1; i <= 15; i++) {
             if (document.getElementById(`condition${i}`).checked === true) {
                 if (i === 6 && document.getElementById('condition6').checked === true)
                     cond += document.getElementById("alther").value
                 else
                     cond += document.getElementById(`condition${i}`).value
-                if (i != 14)
+                if (i != 15)
                     cond += ", "
             } else {
                 cond += "-"
-                if (i != 14)
+                if (i != 15)
                     cond += ", "
             }
         }
@@ -353,7 +353,7 @@ export default function About() {
             document.getElementById("alther").disabled = true
         }
 
-        
+
         if (document.getElementById("condition7").checked === true)
             document.getElementById("ihid").hidden = false
         else if (document.getElementById("condition7").checked === false)
@@ -368,7 +368,7 @@ export default function About() {
                 document.getElementById("rech").hidden = false
 
             }
-        } 
+        }
 
         if (document.getElementById("condition-1").checked === false) {
             document.getElementById("condition2").disabled = false
@@ -407,20 +407,20 @@ export default function About() {
             document.getElementById("calther").focus()
             document.getElementById("calther").required = true
             document.getElementById('condition-1').value = document.getElementById("alther").value
-            
+
         }
         else if (document.getElementById('condition-1').checked === false) {
             document.getElementById("calther").value = ""
             document.getElementById("calther").required = false
             document.getElementById("calther").disabled = true
-            
+
         }
-        if(val === false) {
+        if (val === false) {
             document.getElementById("rech").hidden = true
             document.getElementById("addre").hidden = true
         }
-       
-        
+
+
     }
 
     const redio = (val, val2, val3) => {
@@ -738,6 +738,8 @@ export default function About() {
                                     <label className='ml-2 mr-4'>: ผู้สูงอายุ</label></div>
                                 <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition7" name="condition2" value="คนพิการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required />
                                     <label className='ml-2 mr-4'>: คนพิการ</label></div>
+                                <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition15" name="condition2" value="ผู้มีความยากลำบากเข้าถึงบริการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required />
+                                    <label className='ml-2 mr-4'>: ผู้มีความยากลำบากเข้าถึงบริการ</label></div>
 
                                 <div id='ihid' hidden>
                                     <div><label className='ml-2 mr-4'>**กรณีเป็นผู้พิการเลือกความพิการ**</label> <br /><br /></div>

@@ -1372,7 +1372,31 @@ export default function Manage() {
                             // var dateres = formatDate(f.dateres)
                             // var timeres2 = (String(f.dateres).split("T")[1]).split(".")[0]
                             // var timeres = timeres2.split(":")[0] + ":" + timeres2.split(":")[1]
+                            var cin = [String(f.condition).split(", ")[0], String(f.condition).split(", ")[6], String(f.condition).split(", ")[14]]
+                            if (cin[0] === "-") {
+                                cin[0] = ""
+                            }
+                            if (cin[1] === "-") {
+                                cin[1] = ""
+                            } else {
+                                cin[1] = ", " + cin[1]
+                            }
+                            if (cin[3] === "-" || cin[3] === null || cin[3] === undefined) {
+                                cin[3] = ""
+                            } else {
+                                cin[3] = ", " + cin[3]
+                            }
+                            cin = String(cin).split(",")
 
+                            var cin2 = String(f.condition).split(", ")
+                            cin2[0] = ""
+                            cin2[6] = ""
+                            cin2[14] = ""
+                            var cin3 = String(cin2).split(",-")
+                            var cin4
+                            if(String(cin3)[0] === "-") {
+                                cin3[0] = ""
+                            }
 
                             return (
 
@@ -1387,6 +1411,7 @@ export default function Manage() {
                                     {/* คำนำหน้า: <label className='pl-2 pr-2 '>{f.pre_name}</label> */}
                                     <label className="font-bold">ชื่อ:</label> <label className='pl-2 pr-2 '>{f.pre_name}{f.fname} {f.lname}</label>
                                     {/* นามสกุล: <label className='pl-2 pr-2 '>{f.lname}</label> */}
+                                    <label className="font-bold">เลขบัตรประชาชน:</label> <label className='pl-2 pr-2 '>{f.citizen}</label>
                                     <label className="font-bold">อายุ:</label> <label className='pl-2 pr-2 '>{f.age}</label> <label className="font-bold">ปี</label><br />
                                     <label className="font-bold">เลขที่:</label> <label className='pl-2 pr-2 '>{f.house}</label>
                                     <label className="font-bold">ถนน:</label> <label className='pl-2 pr-2 '>{f.street}</label>
@@ -1399,7 +1424,8 @@ export default function Manage() {
                                     <label className="font-bold">สถานที่รับ-ส่ง:</label> <label className='pl-2 pr-2 '>{f.met_name}</label><br />
                                     <label className="font-bold">สถานที่ต้นทาง:</label> <label className='pl-2 pr-2 '>{f.start}</label><br />
                                     <label className="font-bold">สถานที่ปลายทาง:</label> <label className='pl-2 pr-2 '>{f.end}</label><br />
-                                    <label className="font-bold">เงื่อนไขในการขอรับบริการ:</label> <label className='pl-2 pr-2 '>{String(f.condition).split(", -")}</label><br />
+                                    <label className="font-bold">ประเภทผู้รับบริการ:</label> <label className='pl-2 pr-2 '>{cin}</label><br />
+                                    <label className="font-bold">เงื่อนไขในการขอรับบริการ:</label> <label className='pl-2 pr-2 '>{cin3}</label><br />
                                     <label className="font-bold">ผู้ส่งข้อมูล:</label> <label className='pl-2 pr-2 '>{f.editer}</label>
                                     {/* สถานะ: <label className='pl-2 pr-2 '>{f.status}</label> */}
                                 </div>
@@ -1408,7 +1434,7 @@ export default function Manage() {
                         })}
 
                         <br />
-                        <label className="font-bold">แผนที่:</label>
+                        <label className="font-bold">แผนที่(ถ้ามี):</label>
                         <br />
                         <div className="border border-black p-10">
                             <br />
@@ -1419,12 +1445,12 @@ export default function Manage() {
                             <br />
                         </div>
                         <br />
-                        <br />
+                        {/* <br /> */}
                         <label className="font-bold">หมายเลขทะเบียน: </label>.....................................
                         <br />
                         <br />
                         <label className="font-bold">พนักงานขับรถ: </label>...................................................
-
+                        <label className="font-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ลงชื่อผู้รับบริการ: </label>......................................
                     </div>
                 </>
             ) : (
