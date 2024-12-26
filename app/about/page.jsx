@@ -736,9 +736,9 @@ export default function About() {
                             <div className="grid gap-6 mb-6 md:grid-cols-1 pl-6 pr-6 mt-6">
                                 <div><input type="checkbox" disabled onClick={e => con()} id="condition1" name="condition2" value="ผู้สูงอายุ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: ผู้สูงอายุ</label></div>
-                                <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition7" name="condition2" value="คนพิการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required />
+                                <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition7" name="condition2" value="คนพิการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: คนพิการ</label></div>
-                                <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition15" name="condition2" value="ผู้มีความยากลำบากเข้าถึงบริการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required />
+                                <div><input type="checkbox" onClick={e => { con(), conc() }} id="condition15" name="condition2" value="ผู้มีความยากลำบากเข้าถึงบริการ" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                     <label className='ml-2 mr-4'>: ผู้มีความยากลำบากเข้าถึงบริการ</label></div>
 
                                 <div id='ihid' hidden>

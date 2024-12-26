@@ -393,8 +393,10 @@ export default function Manage() {
 
     const dissend = (cr) => {
 
+        
         const send = {
             "dis": document.getElementById("distancee").value,
+            "carname": document.getElementById("carname").value,
             "cs": document.getElementById("cstarte").value,
             "ce": document.getElementById("cende").value
         }
@@ -434,6 +436,7 @@ export default function Manage() {
             "us_id": localStorage.getItem("id"),
             "fm_id": fm,
             "distance": 0,
+            "carname": "-",
             "cstart": "00:00:00",
             "cend": "00:00:00",
             "cm_status": 0,
@@ -482,36 +485,44 @@ export default function Manage() {
 
     const submitcar = async (fm) => {
 
-        const jsondata = {
-            "us_id": localStorage.getItem("id"),
-            "fm_id": fm,
-            "distance": document.getElementById("distance").value,
-            "cstart": document.getElementById("cstart").value,
-            "cend": document.getElementById("cend").value,
-            "cm_status": 1,
-            "cm_date": t,
-            "des": ""
-        }
+        if (document.getElementById("carname").value === "") {
+            alert("ใส่ข้อมูลให้ครบ")
+        } else {
+            setPrintm(false)
 
-        await fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(jsondata)
-        })
-            .then(res => res.json())
-            .then(result => {
-
-                //console.log(result)
-                if (result.status === "ok") {
-                    document.getElementById("gres").disabled = true
-                    router.push("/manage", { scroll: false });
-                    window.location = "/manage"
-                } else {
-                    alert("ใส่ข้อมูลให้ครบ")
-                }
+            const jsondata = {
+                "us_id": localStorage.getItem("id"),
+                "fm_id": fm,
+                "distance": document.getElementById("distance").value,
+                "carname": document.getElementById("carname").value,
+                "cstart": document.getElementById("cstart").value,
+                "cend": document.getElementById("cend").value,
+                "cm_status": 1,
+                "cm_date": t,
+                "des": ""
+            }
+    
+            await fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(jsondata)
             })
+                .then(res => res.json())
+                .then(result => {
+    
+                    //console.log(result)
+                    if (result.status === "ok") {
+                        document.getElementById("gres2").disabled = true
+                        router.push("/manage", { scroll: false });
+                        window.location = "/manage"
+                    } else {
+                        alert("ใส่ข้อมูลให้ครบ")
+                    }
+                })
+        }
+        
     }
 
     const qry = (val) => {
@@ -966,6 +977,8 @@ export default function Manage() {
 
                                                         <div>ระยะทาง(กม.): <input id="distance" type="number" className="w-[50px] border rounded-md border-black pl-2" required /></div>
 
+                                                        <div>ทะเบียนรถ: <input id="carname" className="w-[100px] border rounded-md border-black pl-2" required /></div>
+
                                                     </div>
                                                     <br />
                                                     <br />
@@ -974,8 +987,8 @@ export default function Manage() {
                                                         <button
                                                             id="gres2"
                                                             className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                                            type="submit"
-                                                            onClick={() => { submitcar(formi), setPrintm(false) }}
+                                                            type='submit'
+                                                            onClick={() => submitcar(formi)}
                                                         >
                                                             ดำเนินการสำเร็จ
                                                         </button>
@@ -1159,11 +1172,13 @@ export default function Manage() {
                                                 <form>
                                                     <div className="text-center grid gap-6 md:grid-cols-1">
 
-                                                        <div>เวลาที่ออกรถ: <input id="cstarte" type="time" className="border rounded-md border-black pl-2" required /></div>
+                                                        <div>เวลาที่ออกรถdd: <input id="cstarte" type="time" className="border rounded-md border-black pl-2" required /></div>
 
                                                         <div>เวลากลับ: <input id="cende" type="time" className="border rounded-md border-black pl-2" required /></div>
 
                                                         <div>ระยะทาง(กม.): <input id="distancee" type="number" className="w-[50px] border rounded-md border-black pl-2" required /></div>
+
+                                                        <div>ทะเบียนรถ: <input id="carname" className="w-[100px] border rounded-md border-black pl-2" required /></div>
 
                                                     </div>
                                                     <br />
@@ -1434,7 +1449,7 @@ export default function Manage() {
                         })}
 
                         <br />
-                        <label className="font-bold">แผนที่(ถ้ามี):</label>
+                        <label className="font-bold">แผนที่ (ถ้ามี):</label>
                         <br />
                         <div className="border border-black p-10">
                             <br />
