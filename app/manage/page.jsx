@@ -440,13 +440,16 @@ export default function Manage() {
             "us_id": localStorage.getItem("id"),
             "fm_id": fm,
             "distance": 0,
-            "carname": "-",
+            "car_name": "-",
             "cstart": "00:00:00",
             "cend": "00:00:00",
             "cm_status": 0,
             "cm_date": t,
             "des": cance
+
         }
+
+        console.log(jsondata)
 
         fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
             method: "POST",
