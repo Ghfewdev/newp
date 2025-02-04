@@ -1,0 +1,675 @@
+"use client"
+import React, { useEffect, useState } from 'react'
+import Authen from '../components/Authen';
+
+export default function Reports() {
+    Authen();
+    const [all, setAll] = useState([]);
+
+    const tel = all.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const walk = all.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+
+    const bma = all.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const unkwon = all.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const com = all.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const cancel = all.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    //all
+
+    const h1 = all.filter((a) => {
+        const h = (a.hos_id === 1)
+        return (h)
+    })
+
+    const h2 = all.filter((a) => {
+        const h = (a.hos_id === 2)
+        return (h)
+    })
+    const h3 = all.filter((a) => {
+        const h = (a.hos_id === 3)
+        return (h)
+    })
+    const h4 = all.filter((a) => {
+        const h = (a.hos_id === 4)
+        return (h)
+    })
+    const h5 = all.filter((a) => {
+        const h = (a.hos_id === 5)
+        return (h)
+    })
+    const h6 = all.filter((a) => {
+        const h = (a.hos_id === 6)
+        return (h)
+    })
+    const h7 = all.filter((a) => {
+        const h = (a.hos_id === 7)
+        return (h)
+    })
+    const h8 = all.filter((a) => {
+        const h = (a.hos_id === 8)
+        return (h)
+    })
+    const h9 = all.filter((a) => {
+        const h = (a.hos_id === 9)
+        return (h)
+    })
+    const h10 = all.filter((a) => {
+        const h = (a.hos_id === 10)
+        return (h)
+    })
+    const h11 = all.filter((a) => {
+        const h = (a.hos_id === 11)
+        return (h)
+    })
+
+    //line
+
+    const line = all.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line1 = h1.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line2 = h2.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line3 = h3.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line4 = h4.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line5 = h5.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line6 = h6.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line7 = h7.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line8 = h8.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line9 = h9.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line10 = h10.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    const line11 = h11.filter((a) => {
+        const h = (a.way === "LINE add")
+        return (h)
+    })
+
+    //walk in
+
+    const walk1 = h1.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+
+    const walk2 = h2.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+    const walk3 = h3.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+    const walk4 = h4.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+    const walk5 = h5.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+    const walk6 = h6.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+    const walk7 = h7.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+    const walk8 = h8.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+    const walk9 = h9.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+
+    const walk10 = h10.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+
+    const walk11 = h11.filter((a) => {
+        const h = (a.way === "Walk in")
+        return (h)
+    })
+
+    //bma
+
+    const bma1 = h1.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma2 = h2.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma3 = h3.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma4 = h4.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma5 = h5.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma6 = h6.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma7 = h7.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma8 = h8.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma9 = h9.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma10 = h10.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    const bma11 = h11.filter((a) => {
+        const h = (a.way === "Easy Chat หมอ กทม.")
+        return (h)
+    })
+
+    //call
+
+    const tel1 = h1.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel2 = h2.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel3 = h3.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel4 = h4.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel5 = h5.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel6 = h6.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel7 = h7.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel8 = h8.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel9 = h9.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel10 = h10.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+
+    const tel11 = h11.filter((a) => {
+        const h = (a.way === "โทรศัพท์")
+        return (h)
+    })
+    
+    //other
+
+    const unkwon1 = h1.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon2 = h2.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon3 = h3.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon4 = h4.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon5 = h5.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon6 = h6.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon7 = h7.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon8 = h8.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon9 = h9.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon10 = h10.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    const unkwon11 = h11.filter((a) => {
+        const h = (a.way === "")
+        return (h)
+    })
+
+    //com
+
+    const com1 = h1.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com2 = h2.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com3 = h3.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com4 = h4.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com5 = h5.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com6 = h6.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com7 = h7.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com8 = h8.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com9 = h9.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com10 = h10.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    const com11 = h11.filter((a) => {
+        const h = (a.status === 1)
+        return (h)
+    })
+
+    //cancel
+
+    const cancel1 = h1.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel2 = h2.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel3 = h3.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel4 = h4.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel5 = h5.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel6 = h6.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel7 = h7.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel8 = h8.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel9 = h9.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel10 = h10.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    const cancel11 = h11.filter((a) => {
+        const h = (a.status === 0)
+        return (h)
+    })
+
+    // console.log(bma, walk)
+
+    useEffect(() => {
+        fetch(process.env.NEXT_PUBLIC_APP_API + "/form2")
+            .then(res => res.json())
+            .then(result => {
+                setAll(result);
+            });
+    }, []);
+    return (
+        <div className='p-10'>
+            <div>สรุปผลการใช้งานระบบ</div>
+            <br /><br />
+            <div className='flex justify-center'>
+
+                <table className="table-auto text-center border border-collapse border-black">
+                    <thead>
+
+                    <tr>
+                            <th rowSpan={2} className='p-1 border border-black'>โรงพยาบาล</th>
+                            <th colSpan={5} className='p-1 border border-black'>การจองทั้งหมด</th>
+                            <th colSpan={5} className='p-1 border border-black'>การให้บริการสำเร็จ</th>
+                            <th rowSpan={2} className='p-1 border border-black'>ยกเลิก</th>
+                        </tr>
+
+                        <tr>
+                            
+                            <th className='p-1 border border-black'>Line</th>
+                            <th className='p-1 border border-black'>Walk in</th>
+                            <th className='p-1 border border-black'>หมอกทม.</th>
+                            <th className='p-1 border border-black'>โทรศัพท์</th>
+                            <th className='p-1 border border-black'>อื่นๆ</th>
+                            <th className='p-1 border border-black'>Line</th>
+                            <th className='p-1 border border-black'>Walk in</th>
+                            <th className='p-1 border border-black'>หมอกทม.</th>
+                            <th className='p-1 border border-black'>โทรศัพท์</th>
+                            <th className='p-1 border border-black'>อื่นๆ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {/* <tr>
+                            <td className='p-1 border border-black'>รพก</td>
+                            <td className='p-1 border border-black'>{line1.length}</td>
+                            <td className='p-1 border border-black'>{walk1.length}</td>
+                            <td className='p-1 border border-black'>{bma1.length}</td>
+                            <td className='p-1 border border-black'>{tel1.length}</td>
+                            <td className='p-1 border border-black'>{unkwon1.length}</td>
+                            <td className='p-1 border border-black'>{h1.length}</td>
+                            <td className='p-1 border border-black'>{com1.length}</td>
+                            <td className='p-1 border border-black'>{cancel1.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพต</td>
+                            <td className='p-1 border border-black'>{line2.length}</td>
+                            <td className='p-1 border border-black'>{walk2.length}</td>
+                            <td className='p-1 border border-black'>{bma2.length}</td>
+                            <td className='p-1 border border-black'>{tel2.length}</td>
+                            <td className='p-1 border border-black'>{unkwon2.length}</td>
+                            <td className='p-1 border border-black'>{h2.length}</td>
+                            <td className='p-1 border border-black'>{com2.length}</td>
+                            <td className='p-1 border border-black'>{cancel2.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพจ</td>
+                            <td className='p-1 border border-black'>{line3.length}</td>
+                            <td className='p-1 border border-black'>{walk3.length}</td>
+                            <td className='p-1 border border-black'>{bma3.length}</td>
+                            <td className='p-1 border border-black'>{tel3.length}</td>
+                            <td className='p-1 border border-black'>{unkwon3.length}</td>
+                            <td className='p-1 border border-black'>{h3.length}</td>
+                            <td className='p-1 border border-black'>{com3.length}</td>
+                            <td className='p-1 border border-black'>{cancel3.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพท</td>
+                            <td className='p-1 border border-black'>{line4.length}</td>
+                            <td className='p-1 border border-black'>{walk4.length}</td>
+                            <td className='p-1 border border-black'>{bma4.length}</td>
+                            <td className='p-1 border border-black'>{tel4.length}</td>
+                            <td className='p-1 border border-black'>{unkwon4.length}</td>
+                            <td className='p-1 border border-black'>{h4.length}</td>
+                            <td className='p-1 border border-black'>{com4.length}</td>
+                            <td className='p-1 border border-black'>{cancel4.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพว</td>
+                            <td className='p-1 border border-black'>{line5.length}</td>
+                            <td className='p-1 border border-black'>{walk5.length}</td>
+                            <td className='p-1 border border-black'>{bma5.length}</td>
+                            <td className='p-1 border border-black'>{tel5.length}</td>
+                            <td className='p-1 border border-black'>{unkwon5.length}</td>
+                            <td className='p-1 border border-black'>{h5.length}</td>
+                            <td className='p-1 border border-black'>{com5.length}</td>
+                            <td className='p-1 border border-black'>{cancel5.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพภ</td>
+                            <td className='p-1 border border-black'>{line6.length}</td>
+                            <td className='p-1 border border-black'>{walk6.length}</td>
+                            <td className='p-1 border border-black'>{bma6.length}</td>
+                            <td className='p-1 border border-black'>{tel6.length}</td>
+                            <td className='p-1 border border-black'>{unkwon6.length}</td>
+                            <td className='p-1 border border-black'>{h6.length}</td>
+                            <td className='p-1 border border-black'>{com6.length}</td>
+                            <td className='p-1 border border-black'>{cancel6.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพร</td>
+                            <td className='p-1 border border-black'>{line7.length}</td>
+                            <td className='p-1 border border-black'>{walk7.length}</td>
+                            <td className='p-1 border border-black'>{bma7.length}</td>
+                            <td className='p-1 border border-black'>{tel7.length}</td>
+                            <td className='p-1 border border-black'>{unkwon7.length}</td>
+                            <td className='p-1 border border-black'>{h7.length}</td>
+                            <td className='p-1 border border-black'>{com7.length}</td>
+                            <td className='p-1 border border-black'>{cancel7.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพส</td>
+                            <td className='p-1 border border-black'>{line8.length}</td>
+                            <td className='p-1 border border-black'>{walk8.length}</td>
+                            <td className='p-1 border border-black'>{bma8.length}</td>
+                            <td className='p-1 border border-black'>{tel8.length}</td>
+                            <td className='p-1 border border-black'>{unkwon8.length}</td>
+                            <td className='p-1 border border-black'>{h8.length}</td>
+                            <td className='p-1 border border-black'>{com8.length}</td>
+                            <td className='p-1 border border-black'>{cancel8.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพข</td>
+                            <td className='p-1 border border-black'>{line9.length}</td>
+                            <td className='p-1 border border-black'>{walk9.length}</td>
+                            <td className='p-1 border border-black'>{bma9.length}</td>
+                            <td className='p-1 border border-black'>{tel9.length}</td>
+                            <td className='p-1 border border-black'>{unkwon9.length}</td>
+                            <td className='p-1 border border-black'>{h9.length}</td>
+                            <td className='p-1 border border-black'>{com9.length}</td>
+                            <td className='p-1 border border-black'>{cancel9.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพป</td>
+                            <td className='p-1 border border-black'>{line10.length}</td>
+                            <td className='p-1 border border-black'>{walk10.length}</td>
+                            <td className='p-1 border border-black'>{bma10.length}</td>
+                            <td className='p-1 border border-black'>{tel10.length}</td>
+                            <td className='p-1 border border-black'>{unkwon10.length}</td>
+                            <td className='p-1 border border-black'>{h10.length}</td>
+                            <td className='p-1 border border-black'>{com10.length}</td>
+                            <td className='p-1 border border-black'>{cancel10.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รพบ</td>
+                            <td className='p-1 border border-black'>{line11.length}</td>
+                            <td className='p-1 border border-black'>{walk11.length}</td>
+                            <td className='p-1 border border-black'>{bma11.length}</td>
+                            <td className='p-1 border border-black'>{tel11.length}</td>
+                            <td className='p-1 border border-black'>{unkwon11.length}</td>
+                            <td className='p-1 border border-black'>{h11.length}</td>
+                            <td className='p-1 border border-black'>{com11.length}</td>
+                            <td className='p-1 border border-black'>{cancel11.length}</td>
+                        </tr>
+
+                        <tr>
+                            <td className='p-1 border border-black'>รวม</td>
+                            <td className='p-1 border border-black'>{line.length}</td>
+                            <td className='p-1 border border-black'>{walk.length}</td>
+                            <td className='p-1 border border-black'>{bma.length}</td>
+                            <td className='p-1 border border-black'>{tel.length}</td>
+                            <td className='p-1 border border-black'>{unkwon.length}</td>
+                            <td className='p-1 border border-black'>{all.length}</td>
+                            <td className='p-1 border border-black'>{com.length}</td>
+                            <td className='p-1 border border-black'>{cancel.length}</td>
+                        </tr> */}
+
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    )
+}

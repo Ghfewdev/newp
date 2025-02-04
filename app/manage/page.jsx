@@ -42,7 +42,7 @@ export default function Manage() {
     const [date2, setDate2] = useState()
 
     const d = new Date()
-    var t = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
+    var t = d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0") + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
 
     const showdate = (val) => {
         console.log(new Date(selectedThaiDate + "T" + (val)))
@@ -382,8 +382,10 @@ export default function Manage() {
                 if (result.status === "ok") {
                     // document.getElementById("editda").disabled = true
                     alert("แก้ไขข้อมูลแล้ว")
-                    router.push("/manage", { scroll: false });
-                    window.location = "/manage"
+                    // router.push("/manage", { scroll: false });
+                    // window.location = "/manage"
+                    router.push("/", { scroll: false });
+                    window.location = "/"
                 } else {
                     alert("ใส่ข้อมูลให้ครบ")
                 }
@@ -396,7 +398,7 @@ export default function Manage() {
         
         const send = {
             "dis": document.getElementById("distancee").value,
-            "carname": document.getElementById("carname").value,
+            "car_name": document.getElementById("carname").value,
             "cs": document.getElementById("cstarte").value,
             "ce": document.getElementById("cende").value
         }
@@ -415,8 +417,10 @@ export default function Manage() {
                 if (result.status === "ok") {
                     // document.getElementById("editda").disabled = true
                     alert("เพิ่มข้อมูลแล้ว")
-                    router.push("/manage", { scroll: false });
-                    window.location = "/manage"
+                    // router.push("/manage", { scroll: false });
+                    // window.location = "/manage"
+                    router.push("/", { scroll: false });
+                    window.location = "/"
                 } else {
                     alert("ใส่ข้อมูลให้ครบ")
                 }
@@ -456,8 +460,10 @@ export default function Manage() {
                 //console.log(result)
                 if (result.status === "ok") {
                     document.getElementById("redc").disabled = true
-                    router.push("/manage", { scroll: false });
-                    window.location = "/manage"
+                    // router.push("/manage", { scroll: false });
+                    // window.location = "/manage"
+                    router.push("/", { scroll: false });
+                    window.location = "/"
                 }
             })
 
@@ -483,26 +489,31 @@ export default function Manage() {
         }, 10);
     }
 
-    const submitcar = async (fm) => {
+    const submitcar = () => {
 
         if (document.getElementById("carname").value === "") {
             alert("ใส่ข้อมูลให้ครบ")
+            console.log(document.getElementById("carname").value)
+            return;
         } else {
+            
             setPrintm(false)
 
             const jsondata = {
                 "us_id": localStorage.getItem("id"),
-                "fm_id": fm,
+                "fm_id": formi,
                 "distance": document.getElementById("distance").value,
-                "carname": document.getElementById("carname").value,
+                "car_name": document.getElementById("carname").value,
                 "cstart": document.getElementById("cstart").value,
                 "cend": document.getElementById("cend").value,
                 "cm_status": 1,
                 "cm_date": t,
                 "des": ""
             }
+
+            console.log(jsondata)
     
-            await fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
+            fetch(process.env.NEXT_PUBLIC_APP_API + "/status2", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -512,11 +523,14 @@ export default function Manage() {
                 .then(res => res.json())
                 .then(result => {
     
-                    //console.log(result)
+                    console.log(result)
                     if (result.status === "ok") {
                         document.getElementById("gres2").disabled = true
-                        router.push("/manage", { scroll: false });
-                        window.location = "/manage"
+                        // router.push("/manage", { scroll: false });
+                        // window.location = "/manage"
+                        router.push("/", { scroll: false });
+                    window.location = "/"
+
                     } else {
                         alert("ใส่ข้อมูลให้ครบ")
                     }
@@ -968,7 +982,7 @@ export default function Manage() {
                                             <div className='p-2 rounded-lg border border-gray-200 dark:border-gray-700'>
                                                 <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white text-center">สามาถรถดำเนินการได้ </label>
                                                 <br />
-                                                <form>
+                                                <form action={submitcar}>
                                                     <div className="text-center grid gap-6 md:grid-cols-1">
 
                                                         <div>เวลาที่ออกรถ: <input id="cstart" type="time" className="border rounded-md border-black pl-2" required /></div>
@@ -988,7 +1002,7 @@ export default function Manage() {
                                                             id="gres2"
                                                             className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                             type='submit'
-                                                            onClick={() => submitcar(formi)}
+                                                            // onClick={() => submitcar(formi)}
                                                         >
                                                             ดำเนินการสำเร็จ
                                                         </button>
