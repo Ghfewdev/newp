@@ -42,9 +42,10 @@ export default function Navbar() {
             document.getElementById("manage2").hidden = false
             document.getElementById("regis").hidden = false
             document.getElementById("regis2").hidden = false
+            document.getElementById("getm").hidden = false
             if(localStorage.getItem("id") === "14") {
                 document.getElementById("dash").hidden = false
-                document.getElementById("re").hidden = false
+                // document.getElementById("re").hidden = false
             }
            
             //document.getElementById("dash2").hidden = false
@@ -65,8 +66,9 @@ export default function Navbar() {
             document.getElementById("manage").hidden = true
             document.getElementById("manage2").hidden = true
             document.getElementById("dash").hidden = true
+            document.getElementById("getm").hidden = true
             //document.getElementById("dash2").hidden = true
-            document.getElementById("re").hidden = true
+            // document.getElementById("re").hidden = true
         }
     }, []);
     return (
@@ -92,8 +94,11 @@ export default function Navbar() {
                     <li id='dash' hidden className='text-[#FFEA00] mr-4 lg:mr-8 hover:text-[#7BC634]'>
                         <Link href={"/dashboard"}>Dashboard</Link>
                     </li>
-                    <li id='re' hidden className='text-[#FFEA00] hover:text-[#7BC634]'>
+                    {/* <li id='re' hidden className='text-[#FFEA00] hover:text-[#7BC634]'>
                         <Link href={"/reports"}>Reports</Link>
+                    </li> */}
+                    <li id='getm' hidden className='text-[#FFEA00] hover:text-[#7BC634]'>
+                        <Link href={"/getm"}>รายงาน</Link>
                     </li>
                     
 
